@@ -1,12 +1,12 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
-import React, { useRef } from 'react';
 import { Dimensions, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
 export default function WelcomeScreen() {
-  const animation = useRef(null);
+  const router = useRouter()
 
   return (
     <View className="flex-1">
@@ -42,7 +42,7 @@ export default function WelcomeScreen() {
             <TouchableOpacity 
               className="w-full h-16 rounded-full p-[1.5px] overflow-hidden"
               activeOpacity={0.8}
-              // onPress={() => router.push('/login')} 
+              onPress={() => router.push('/login')} 
             >
               <LinearGradient
                 colors={['#1d4ed8', '#9333ea']}
