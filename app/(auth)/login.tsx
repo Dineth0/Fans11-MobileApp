@@ -1,7 +1,8 @@
+import { useRouter } from "expo-router"
 import { Keyboard, Pressable, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
 
 const Login = () =>{
-
+    const router = useRouter()
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View className="flex-1 justify-center items-center bg-gray-50 p-6">
@@ -30,7 +31,7 @@ const Login = () =>{
                         <Text className="text-gray-700">Do not have an account? </Text>
                         <TouchableOpacity
                         onPress={() => {
-                            
+                            router.push("/register")
                         }}
                         >
                         <Text className="text-blue-600 font-semibold">Register</Text>

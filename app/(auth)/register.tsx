@@ -45,7 +45,7 @@ const Register = () =>{
                         <TouchableOpacity
                         onPress={() => {
                         
-                            router.back()
+                            router.push("/login")
                         
                         }}
                         >
