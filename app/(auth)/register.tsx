@@ -2,7 +2,7 @@ import { useLoader } from "@/hooks/useLoader"
 import { userRegister } from "@/services/authService"
 import { useRouter } from "expo-router"
 import { useState } from "react"
-import { Keyboard, Pressable, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
+import { ImageBackground, Keyboard, Pressable, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification'
 
 const Register = () =>{
@@ -58,29 +58,36 @@ const Register = () =>{
 
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View className="flex-1 justify-center items-center bg-gray-50 p-6">
-                <View className="w-full bg-white/50 backdrop-blur-md rounded-2xl p-8 shadow-lg">
-                    <Text className="text-3xl font-bold mb-6 text-center text-gray-900">
-                        Register
+            <ImageBackground
+             source={require("../../assets/images/wellcomeScreen.png")}
+             className="flex-1"
+            resizeMode="cover">
+                <View className="flex-1 justify-center items-center bg-black/40 p-6">
+                <View className="w-full bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20">
+                    <Text className="text-4xl font-extrabold mb-2 text-center text-white">
+                        Join FANS11
+                    </Text>
+                    <Text className="text-gray-200 text-center mb-8">
+                            Create an account to start playing
                     </Text>
                     <TextInput
                         placeholder="name"
                         placeholderTextColor="#6B7280"
-                        className="border bg-gray-300 p-3 mb-4 rounded-xl"
+                        className="bg-white/20 p-4 mb-4 rounded-2xl text-white border border-white/10"
                         value={name}
                         onChangeText={setName}
                     />
                     <TextInput
                         placeholder="email"
                         placeholderTextColor="#6B7280"
-                        className="border bg-gray-300 p-3 mb-4 rounded-xl"
+                        className="bg-white/20 p-4 mb-4 rounded-2xl text-white border border-white/10"
                         value={email}
                         onChangeText={setEmail}
                     />
                     <TextInput
                         placeholder="password"
                         placeholderTextColor="#6B7280"
-                        className="border bg-gray-300 p-3 mb-4 rounded-xl"
+                        className="bg-white/20 p-4 mb-4 rounded-2xl text-white border border-white/10"
                         value={password}
                         onChangeText={setPassword}
                         secureTextEntry
@@ -88,19 +95,19 @@ const Register = () =>{
                     <TextInput
                         placeholder="confirm password"
                         placeholderTextColor="#6B7280"
-                        className="border bg-gray-300 p-3 mb-4 rounded-xl"
+                        className="bg-white/20 p-4 mb-4 rounded-2xl text-white border border-white/10"
                         value={conPassword}
                         onChangeText={setConPassword}
                         secureTextEntry
                     />
                     <Pressable
-                        className="bg-blue-600/80 px-6 py-3 rounded-2xl"
+                        className="bg-blue-600 py-4 rounded-2xl active:bg-blue-700 shadow-lg"
                         onPress={handleRegister}
                     >
-                        <Text className="text-white text-lg text-center">Register</Text>
+                        <Text className="text-white text-xl font-bold text-center">Register</Text>
                     </Pressable>
-                    <View className="flex-row justify-center mt-2">
-                        <Text className="text-gray-700">Alrady have an account? </Text>
+                    <View className="flex-row justify-center mt-6">
+                        <Text className="text-gray-300">Alrady have an account? </Text>
                         <TouchableOpacity
                         onPress={() => {
                         
@@ -113,6 +120,8 @@ const Register = () =>{
                     </View>
                 </View>
             </View>
+            </ImageBackground>
+            
         </TouchableWithoutFeedback>
     )
 }

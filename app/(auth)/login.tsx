@@ -37,11 +37,13 @@ const Login = () =>{
                     textBody: `Welcome back, ${userData.name}`,
                 });
 
-                if (userData.role === "Admin") {
-                    router.replace("/(admin)/dashboard");
-                } else {
-                    router.replace("/(home)/home"); 
-                }
+                setTimeout(() => {
+                    if (userData.role === "Admin") {
+                        router.replace("/(admin)/dashboard");
+                    } else {
+                        router.replace("/(home)/home");
+                    }
+                }, 1500);
             } else {
                 throw new Error("User data not found");
             }
