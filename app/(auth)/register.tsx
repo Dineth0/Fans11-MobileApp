@@ -18,7 +18,8 @@ const Register = () =>{
             Toast.show({
                 type: ALERT_TYPE.WARNING,
                 title: 'Warning',
-                textBody: 'Please fill all fields...!'
+                textBody: 'Please fill all fields...!',
+                autoClose: 3000,
             })
             return
         }
@@ -26,7 +27,8 @@ const Register = () =>{
             Toast.show({
                 type: ALERT_TYPE.DANGER,
                 title: 'Error',
-                textBody: 'do not match password'
+                textBody: 'do not match password',
+                autoClose: 3000,
             })
             return
         }
@@ -37,7 +39,8 @@ const Register = () =>{
             Toast.show({
                 type: ALERT_TYPE.SUCCESS,
                 title: 'Success',
-                textBody: 'Account created..!'
+                textBody: 'Account created..!',
+                autoClose: 3000,
             })
             router.replace("/login")
         }catch(error){
@@ -45,7 +48,8 @@ const Register = () =>{
             Toast.show({
                 type: ALERT_TYPE.DANGER,
                 title: 'Error',
-                textBody: 'Register fail..!'
+                textBody: 'Register fail..!',
+                autoClose: 3000,
             })
         }finally{
             hideLoader()

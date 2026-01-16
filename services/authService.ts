@@ -1,8 +1,10 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { doc, setDoc } from "firebase/firestore"
 import { auth, db } from "./firebase"
 
-
+export const login = async (email: string, password: string)=>{
+    return await signInWithEmailAndPassword(auth, email, password)
+}
 
 export const userRegister = async(
     fullName : string,
