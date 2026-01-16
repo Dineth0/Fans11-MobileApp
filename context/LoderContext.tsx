@@ -7,7 +7,7 @@ interface LoderContextProps {
     isLoading: boolean
 }
 
-export const LoderContext = createContext<LoderContextProps>({
+export const LoaderContext = createContext<LoderContextProps>({
     showLoader: () => {},
     hideLoader: () => {},
     isLoading: false
@@ -19,7 +19,7 @@ export const LoadProvider = ({children}: {children: ReactNode}) =>{
     const hideLoader = () => setIsLoading(false)
 
     return(
-        <LoderContext.Provider value={{showLoader, hideLoader, isLoading}}>
+        <LoaderContext.Provider value={{showLoader, hideLoader, isLoading}}>
             {children}
             {isLoading && (
                 <View className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center bg-black/30">
@@ -28,6 +28,6 @@ export const LoadProvider = ({children}: {children: ReactNode}) =>{
                     </View>
                 </View>
             )}
-        </LoderContext.Provider>
+        </LoaderContext.Provider>
     )
 }
