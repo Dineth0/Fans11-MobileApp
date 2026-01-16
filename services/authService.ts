@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth"
-import { doc, setDoc } from "firebase/firestore"
+import { doc, getDoc, setDoc } from "firebase/firestore"
 import { auth, db } from "./firebase"
 
 export const login = async (email: string, password: string)=>{
@@ -25,4 +25,15 @@ export const userRegister = async(
         creatAt: new Date()
     })
     return userCredential.user
+}
+
+export const getUserData = async (uid: string) =>{
+    const userDoc = await getDoc(doc(db, "users", uid))
+
+    if(!userDoc.exists()){
+        throw new Error("User Data not found")
+    }
+    return{
+        user : userDoc.data()
+    }
 }
