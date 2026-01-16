@@ -2,7 +2,8 @@ import { useLoader } from "@/hooks/useLoader"
 import { userRegister } from "@/services/authService"
 import { useRouter } from "expo-router"
 import { useState } from "react"
-import { Alert, Keyboard, Pressable, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
+import { Keyboard, Pressable, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification'
 
 const Register = () =>{
     const router = useRouter()
@@ -14,22 +15,38 @@ const Register = () =>{
 
     const handleRegister = async () =>{
         if (!name || !email || !password || !conPassword || isLoading) {
-            Alert.alert("Please fill all fields...!")
+            Toast.show({
+                type: ALERT_TYPE.WARNING,
+                title: 'Warning',
+                textBody: 'Please fill all fields...!'
+            })
             return
         }
         if(password !== conPassword){
-            Alert.alert("Password do not Match")
+            Toast.show({
+                type: ALERT_TYPE.DANGER,
+                title: 'Error',
+                textBody: 'do not match password'
+            })
             return
         }
         showLoader()
 
         try{
             await userRegister(name, email, password, "User")
-            Alert.alert("Account Created")
+            Toast.show({
+                type: ALERT_TYPE.SUCCESS,
+                title: 'Success',
+                textBody: 'Account created..!'
+            })
             router.replace("/login")
         }catch(error){
             console.error(error)
-            Alert.alert("Field Registration")
+            Toast.show({
+                type: ALERT_TYPE.DANGER,
+                title: 'Error',
+                textBody: 'Register fail..!'
+            })
         }finally{
             hideLoader()
         }
