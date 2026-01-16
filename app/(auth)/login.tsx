@@ -1,9 +1,10 @@
 import { useLoader } from "@/hooks/useLoader"
-import { login } from "@/services/authService"
+import { getUserData, login } from "@/services/authService"
 import { useRouter } from "expo-router"
 import { useState } from "react"
 import { Keyboard, Pressable, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
 import { ALERT_TYPE, Toast } from "react-native-alert-notification"
+
 
 const Login = () =>{
     const router = useRouter()
@@ -24,14 +25,26 @@ const Login = () =>{
         showLoader()
 
         try{
-            await login(email, password)
-            
-            Toast.show({
-                type: ALERT_TYPE.SUCCESS,
-                title: 'Success',
-                textBody: 'Welcome to Fans11',
-                autoClose: 3000,
-            })
+            const userCredential = await login(email, password);
+            const user = userCredential.user;
+
+            const userData = await getUserData(user.uid) 
+
+            if (userData) {
+                Toast.show({
+                    type: ALERT_TYPE.SUCCESS,
+                    title: 'Success',
+                    textBody: `Welcome back, ${userData.name}`,
+                });
+
+                if (userData.role === "Admin") {
+                    router.replace("/(admin)/dashboard");
+                } else {
+                    router.replace("/(home)/home"); 
+                }
+            } else {
+                throw new Error("User data not found");
+            }
         }catch(error){
             console.error(error)
             Toast.show({
