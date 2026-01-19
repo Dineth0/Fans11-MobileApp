@@ -1,52 +1,81 @@
-import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import LottieView from 'lottie-react-native';
-import { Dimensions, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import { useAuth } from "@/hooks/useAuth";
+import { getUserData } from "@/services/authService";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import LottieView from "lottie-react-native";
+import {
+  Dimensions,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 export default function WelcomeScreen() {
-  const router = useRouter()
+  const router = useRouter();
+  const { user, loading } = useAuth();
+
+  const handleStarted = async () => {
+    if (loading) return;
+
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+    try {
+      const userData = await getUserData(user.uid);
+
+      if (userData.role === "Admin") {
+        router.push("/(admin)/dashboard");
+      } else {
+        router.push("/(home)/home");
+      }
+    } catch (error) {
+      console.error(error);
+      router.push("/welcomescreen");
+    }
+  };
 
   return (
     <View className="flex-1">
-      <ImageBackground 
-        source={require('../assets/images/wellcomeScreen.png')} 
+      <ImageBackground
+        source={require("../assets/images/wellcomeScreen.png")}
         className="flex-1"
         style={{ width, height }}
       >
         <LinearGradient
-          colors={['transparent', 'rgba(0,0,0,0.8)', 'black']}
-          className="flex-1 justify-end pb-28 px-8" 
+          colors={["transparent", "rgba(0,0,0,0.8)", "black"]}
+          className="flex-1 justify-end pb-28 px-8"
         >
-       
-          <View className="items-center mb-auto mt-40"> 
+          <View className="items-center mb-auto mt-40">
             <LottieView
               autoPlay
               loop
               style={{ width: 180, height: 180, marginTop: 10 }}
-              source={require('../assets/animations/Bouncing-Cricket-Ball.json')} 
+              source={require("../assets/animations/Bouncing-Cricket-Ball.json")}
             />
 
             <Text className="text-white text-6xl font-black tracking-[4px] italic mt-4 shadow-2xl">
               FANS11
             </Text>
-            
+
             <Text className="text-gray-300 text-base tracking-[2px] font-medium text-center uppercase">
               Build Your Dream XI
             </Text>
           </View>
 
-
           <View className="items-center w-full">
-            <TouchableOpacity 
+            <TouchableOpacity
               className="w-full h-16 rounded-full p-[1.5px] overflow-hidden"
               activeOpacity={0.8}
-              onPress={() => router.push('/login')} 
+              onPress={handleStarted}
             >
               <LinearGradient
-                colors={['#1d4ed8', '#9333ea']}
-                start={{x: 0, y: 0}} end={{x: 1, y: 0}}
+                colors={["#1d4ed8", "#9333ea"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
                 className="flex-1 rounded-full justify-center items-center"
               >
                 <View className="bg-black/40 w-full h-full rounded-full justify-center items-center">
@@ -61,7 +90,6 @@ export default function WelcomeScreen() {
               Predict • Compete • Win
             </Text>
           </View>
-
         </LinearGradient>
       </ImageBackground>
     </View>
