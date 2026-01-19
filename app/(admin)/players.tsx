@@ -1,12 +1,12 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-const index = () => {
+const Matches = () => {
   return (
     <View className="flex-1 items-center mt-20">
-      <Text>Dashboard</Text>
+      <Text>Player</Text>
     </View>
   );
 };
 
-export default index;
+export default Matches;
