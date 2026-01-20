@@ -4,10 +4,10 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 interface Player {
   name: string;
   role: string;
-  image: string;
+  image: string | null;
 }
 
-export const PlarerCard = ({ player }: { player: Player }) => (
+export const PlayerCard = ({ player }: { player: Player }) => (
   <View className="bg-slate-900 mx-4 mb-3 p-4 rounded-3xl border border-slate-800 flex-row items-center">
     <View className="w-12 h-12 bg-slate-800 rounded-2xl overflow-hidden items-center justify-center">
       {player.image ? (
