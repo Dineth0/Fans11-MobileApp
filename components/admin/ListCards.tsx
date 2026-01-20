@@ -1,0 +1,42 @@
+import { MaterialIcons } from "@expo/vector-icons";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+
+interface Player {
+  name: string;
+  role: string;
+  image: string;
+}
+
+export const PlarerCard = ({ player }: { player: Player }) => (
+  <View className="bg-slate-900 mx-4 mb-3 p-4 rounded-3xl border border-slate-800 flex-row items-center">
+    <View className="w-12 h-12 bg-slate-800 rounded-2xl overflow-hidden items-center justify-center">
+      {player.image ? (
+        <Image source={{ uri: player.image }} className="w-full h-full" />
+      ) : (
+        <MaterialIcons name="person" size={28} color="#475569" />
+      )}
+    </View>
+    <View className="ml-4 flex-1">
+      <Text className="text-white font-bold text-lg">{player.name}</Text>
+      <Text className="text-purple-400 text-xs font-bold uppercase">
+        {player.role}
+      </Text>
+    </View>
+  </View>
+);
+
+export const CountryCard = ({ country }: { country: any }) => (
+  <View className="bg-slate-900/40 mb-3 p-4 rounded-2xl flex-row justify-between items-center border border-slate-800">
+    <View className="flex-row items-center">
+      <View className="w-10 h-7 bg-slate-800 rounded mr-3 overflow-hidden">
+        {country.flag && (
+          <Image source={{ uri: country.flag }} className="w-full h-full" />
+        )}
+      </View>
+      <Text className="text-white text-lg font-medium">{country.name}</Text>
+    </View>
+    <TouchableOpacity>
+      <MaterialIcons name="delete-outline" size={22} color="#f87171" />
+    </TouchableOpacity>
+  </View>
+);
