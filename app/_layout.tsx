@@ -1,23 +1,26 @@
+// app/_layout.tsx
 import { AuthProvider } from "@/context/AuthContext";
 import { LoadProvider } from "@/context/LoderContext";
-import { Slot } from "expo-router";
+import { Stack } from "expo-router"; // Slot වෙනුවට Stack ගන්න
 import React from "react";
-import { View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import "../global.css";
 
 const RootLayout = () => {
-  const insets = useSafeAreaInsets();
-
-  console.log(insets);
-
   return (
-    <LoadProvider>
-      <AuthProvider>
-        <View style={{ flex: 1 }}>
-          <Slot />
-        </View>
-      </AuthProvider>
-    </LoadProvider>
+    <SafeAreaProvider>
+      <LoadProvider>
+        <AuthProvider>
+          {/* Slot වෙනුවට Stack එකක් භාවිතා කිරීමෙන් Navigation Context එකක් ලැබෙනවා */}
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="welcomescreen" />
+            <Stack.Screen name="(admin)" />
+            <Stack.Screen name="(home)" />
+          </Stack>
+        </AuthProvider>
+      </LoadProvider>
+    </SafeAreaProvider>
   );
 };
 

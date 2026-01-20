@@ -8,7 +8,7 @@ const tabs = [
   { name: "profile", icon: "person", title: "Profile" },
 ] as const;
 
-const HomeLayout = () => {
+const AdminLayout = () => {
   return (
     <Tabs screenOptions={{ headerShown: false }}>
       {tabs.map((tab) => (
@@ -25,4 +25,4 @@ const HomeLayout = () => {
     </Tabs>
   );
 };
-export default HomeLayout;
+export default AdminLayout;

@@ -21,20 +21,20 @@ export default function WelcomeScreen() {
     if (loading) return;
 
     if (!user) {
-      router.push("/login");
+      router.replace("/login");
       return;
     }
     try {
       const userData = await getUserData(user.uid);
 
       if (userData.role === "Admin") {
-        router.push("/(admin)/dashboard");
+        router.replace("/dashboard");
       } else {
-        router.push("/(home)/home");
+        router.replace("/home");
       }
     } catch (error) {
       console.error(error);
-      router.push("/welcomescreen");
+      router.replace("/welcomescreen");
     }
   };
 
