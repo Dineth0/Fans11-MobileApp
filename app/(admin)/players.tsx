@@ -15,16 +15,21 @@ import {
 import { AddPlayerModal } from "@/components/admin/AddPlayerModal";
 import { CountryCard, PlayerCard } from "@/components/admin/ListCards";
 import { TabButton } from "@/components/admin/TabButton";
+import { useLoader } from "@/hooks/useLoader";
+import { addCountry } from "@/services/countryService";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
+interface Country {
+  id: string;
+  name: string;
+  flag: string | null;
+}
 const AdminPlayersScreen = () => {
   const [activeTab, setActiveTab] = useState("players");
   const [selectedCountry, setSelectedCountry] = useState("Sri Lanka");
   const [isPlayerModalVisible, setPlayerModalVisible] = useState(false);
 
-  const [countries, setCountries] = useState([
-    { id: "1", name: "Sri Lanka", flag: null },
-    { id: "2", name: "India", flag: null },
-  ]);
+  const [countries, setCountries] = useState<Country[]>([]);
   const [players, setPlayers] = useState([
     {
       id: "1",
@@ -41,21 +46,56 @@ const AdminPlayersScreen = () => {
   const [countryName, setCName] = useState("");
   const [countryFlag, setCFlag] = useState<string | null>(null);
 
+  const { showLoader, hideLoader, isLoading } = useLoader();
+
   const pickImage = async (target: "player" | "country") => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images"],
       allowsEditing: true,
       aspect: target === "player" ? [1, 1] : [3, 2],
-      quality: 0.7,
+      quality: 0.5,
+      base64: true,
     });
     if (!result.canceled) {
-      target === "player"
-        ? setPImage(result.assets[0].uri)
-        : setCFlag(result.assets[0].uri);
+      const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+      target === "player" ? setPImage(base64Image) : setCFlag(base64Image);
     }
   };
 
-  const handleAddCountry = () => {};
+  const handleAddCountry = async () => {
+    if (!countryName || !countryFlag) {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Warning",
+        textBody: "Please enter name and select flag",
+      });
+      return;
+    }
+    showLoader();
+    try {
+      const newId = await addCountry(countryName, countryFlag);
+      const newCountry = { id: newId, name: countryName, flag: countryFlag };
+      setCountries((prev) => [...prev, newCountry]);
+      Toast.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: "Success",
+        textBody: "Country Added Successfully",
+        autoClose: 3000,
+      });
+      setCName("");
+      setCFlag(null);
+    } catch (error) {
+      console.error(error);
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Error",
+        textBody: "Add Failed..!",
+        autoClose: 3000,
+      });
+    } finally {
+      hideLoader();
+    }
+  };
 
   const handleAddPlayer = () => {};
 

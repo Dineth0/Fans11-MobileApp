@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 interface Player {
   name: string;
   role: string;
-  image: string | null;
+  image: string;
 }
 
 export const PlayerCard = ({ player }: { player: Player }) => (
