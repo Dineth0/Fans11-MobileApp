@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 interface Props {
   label: string;
@@ -15,7 +15,11 @@ const TeamSelectCard = ({ label, selectedTeam, onPress }: Props) => {
     >
       {selectedTeam ? (
         <View className="items-center">
-          <Text className="text-3xl mb-1">🏏</Text>
+          <Image
+            source={{ uri: selectedTeam.flag }}
+            className="w-16 h-10 rounded-md mb-1"
+            resizeMode="cover"
+          />
           <Text
             className="text-white font-bold text-center px-2"
             numberOfLines={2}

@@ -7,27 +7,24 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 
-const matchCollect = collection(db, "players");
+const matchCollect = collection(db, "matches");
 
 interface Country {
   id: string;
   name: string;
   flag: string;
 }
-export const addMatch = async (
-  title: string,
-  venue: string,
-  date: string,
-  teamA: Country,
-  teamB: Country,
-): Promise<string> => {
+interface MatchData {
+  title: string;
+  venue: string;
+  date: string;
+  teamA: Country;
+  teamB: Country;
+}
+export const addMatch = async (matchData: MatchData): Promise<string> => {
   try {
     const doc = await addDoc(matchCollect, {
-      title: title,
-      venue: venue,
-      date: date,
-      teamA: teamA,
-      teamB: teamB,
+      ...matchData,
       createdAt: new Date(),
     });
     return doc.id;

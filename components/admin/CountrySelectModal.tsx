@@ -1,10 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
-import { FlatList, Modal, Text, TouchableOpacity, View } from "react-native";
+import {
+    FlatList,
+    Image,
+    Modal,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 
 interface Country {
   id: string;
   name: string;
-  image: string;
+  flag: string;
 }
 interface Props {
   visible: boolean;
@@ -38,7 +45,15 @@ const CountrySelectModal = ({
                 className="bg-slate-800 p-5 mb-3 rounded-2xl flex-row items-center border border-slate-700"
               >
                 <View className="w-10 h-10 bg-slate-700 rounded-full mr-4 justify-center items-center">
-                  <Text>🏏</Text>
+                  {item.flag ? (
+                    <Image
+                      source={{ uri: item.flag }}
+                      className="w-full h-full"
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    <Text>🏏</Text>
+                  )}
                 </View>
                 <Text className="text-white text-lg font-bold">
                   {item.name}
