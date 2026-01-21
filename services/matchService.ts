@@ -1,25 +1,27 @@
-const API_KEY = "f74233c6-4e65-438a-a4c7-740c1423eba9";
-const BASE_URL = "https://api.cricketdata.org/v1";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "./firebase";
 
-export const matchService = {
-  getUpcomingMatches: async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/matches`, {
-        headers: {
-          apikey: API_KEY,
-        },
-      });
+const matchCollect = collection(db, "players");
 
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(`HTTP ${response.status}: ${text}`);
-      }
-
-      const json = await response.json();
-      return json.data || [];
-    } catch (error) {
-      console.log("API ERROR 👉", error);
-      throw error;
-    }
-  },
+export const addMatch = async (
+  title: string,
+  venue: string,
+  date: string,
+  teamA: { name: string; id: string; flag: string },
+  teamB: { name: string; id: string; flag: string },
+): Promise<string> => {
+  try {
+    const doc = await addDoc(matchCollect, {
+      title: title,
+      venue: venue,
+      date: date,
+      teamA: teamA,
+      teamB: teamB,
+      createdAt: new Date(),
+    });
+    return doc.id;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
