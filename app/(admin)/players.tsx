@@ -1,7 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -16,7 +16,8 @@ import { AddPlayerModal } from "@/components/admin/AddPlayerModal";
 import { CountryCard, PlayerCard } from "@/components/admin/ListCards";
 import { TabButton } from "@/components/admin/TabButton";
 import { useLoader } from "@/hooks/useLoader";
-import { addCountry } from "@/services/countryService";
+import { addCountry, getAllCountries } from "@/services/countryService";
+import { addPlayer, getPlayersByCountry } from "@/services/playerService";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 interface Country {
@@ -24,21 +25,20 @@ interface Country {
   name: string;
   flag: string | null;
 }
+interface Player {
+  id: string;
+  name: string;
+  image: string;
+  role: string;
+  country: string;
+}
 const AdminPlayersScreen = () => {
   const [activeTab, setActiveTab] = useState("players");
   const [selectedCountry, setSelectedCountry] = useState("Sri Lanka");
   const [isPlayerModalVisible, setPlayerModalVisible] = useState(false);
 
   const [countries, setCountries] = useState<Country[]>([]);
-  const [players, setPlayers] = useState([
-    {
-      id: "1",
-      name: "Wanindu Hasaranga",
-      country: "Sri Lanka",
-      role: "All-Rounder",
-      image: null,
-    },
-  ]);
+  const [players, setPlayers] = useState<Player[]>([]);
 
   const [playerName, setPName] = useState("");
   const [playerRole, setPRole] = useState("");
@@ -47,6 +47,26 @@ const AdminPlayersScreen = () => {
   const [countryFlag, setCFlag] = useState<string | null>(null);
 
   const { showLoader, hideLoader, isLoading } = useLoader();
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      showLoader();
+      const data = await getAllCountries();
+      setCountries(data);
+      hideLoader();
+    };
+    fetchCountries();
+  }, []);
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      showLoader();
+      const data = await getPlayersByCountry(selectedCountry);
+      setPlayers(data);
+      hideLoader();
+    };
+
+    fetchPlayers();
+  }, [selectedCountry]); // selectedCountry වෙනස් වන විට මෙම function එක නැවත වැඩ කරයි
 
   const pickImage = async (target: "player" | "country") => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -74,8 +94,12 @@ const AdminPlayersScreen = () => {
     showLoader();
     try {
       const newId = await addCountry(countryName, countryFlag);
-      const newCountry = { id: newId, name: countryName, flag: countryFlag };
-      setCountries((prev) => [...prev, newCountry]);
+      const newCountry: Country = {
+        id: newId,
+        name: countryName,
+        flag: countryFlag,
+      };
+      setCountries((prev) => [newCountry, ...prev]);
       Toast.show({
         type: ALERT_TYPE.SUCCESS,
         title: "Success",
@@ -97,7 +121,47 @@ const AdminPlayersScreen = () => {
     }
   };
 
-  const handleAddPlayer = () => {};
+  const handleAddPlayer = async () => {
+    if (!playerName || !playerImage || !playerRole) {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Warning",
+        textBody: "Please enter all fields",
+      });
+      return;
+    }
+    showLoader();
+    try {
+      const newId = await addPlayer(
+        playerName,
+        playerImage,
+        playerRole,
+        selectedCountry,
+      );
+
+      const newPlayer: Player = {
+        id: newId,
+        name: playerName,
+        image: playerImage,
+        role: playerRole,
+        country: selectedCountry,
+      };
+      setPlayers((prev) => [newPlayer, ...prev]);
+      Toast.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: "Success",
+        textBody: "Player Added to " + selectedCountry,
+      });
+      setPlayerModalVisible(false);
+      setPName("");
+      setPRole("");
+      setPImage(null);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      hideLoader();
+    }
+  };
 
   return (
     <View className="flex-1 bg-black">
@@ -170,7 +234,7 @@ const AdminPlayersScreen = () => {
               </TouchableOpacity>
             </View>
             <FlatList
-              data={players.filter((p) => p.country === selectedCountry)}
+              data={players}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => <PlayerCard player={item} />}
             />
