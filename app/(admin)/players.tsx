@@ -11,7 +11,6 @@ import {
   View,
 } from "react-native";
 
-// Components Import කිරීම
 import { AddPlayerModal } from "@/components/admin/AddPlayerModal";
 import { CountryCard, PlayerCard } from "@/components/admin/ListCards";
 import { TabButton } from "@/components/admin/TabButton";
@@ -66,7 +65,7 @@ const AdminPlayersScreen = () => {
     };
 
     fetchPlayers();
-  }, [selectedCountry]); // selectedCountry වෙනස් වන විට මෙම function එක නැවත වැඩ කරයි
+  }, [selectedCountry]);
 
   const pickImage = async (target: "player" | "country") => {
     let result = await ImagePicker.launchImageLibraryAsync({

@@ -1,33 +1,52 @@
-import { createContext, ReactNode, useState } from "react"
-import { ActivityIndicator, View } from "react-native"
+import LottieView from "lottie-react-native";
+import { createContext, ReactNode, useState } from "react";
+import { View } from "react-native";
 
 interface LoderContextProps {
-    showLoader: () => void
-    hideLoader: () => void
-    isLoading: boolean
+  showLoader: () => void;
+  hideLoader: () => void;
+  isLoading: boolean;
 }
 
 export const LoaderContext = createContext<LoderContextProps>({
-    showLoader: () => {},
-    hideLoader: () => {},
-    isLoading: false
-})
+  showLoader: () => {},
+  hideLoader: () => {},
+  isLoading: false,
+});
 
-export const LoadProvider = ({children}: {children: ReactNode}) =>{
-    const [isLoading, setIsLoading] = useState(false)
-    const showLoader = () => setIsLoading(true)
-    const hideLoader = () => setIsLoading(false)
+export const LoadProvider = ({ children }: { children: ReactNode }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const showLoader = () => setIsLoading(true);
+  const hideLoader = () => setIsLoading(false);
 
-    return(
-        <LoaderContext.Provider value={{showLoader, hideLoader, isLoading}}>
-            {children}
-            {isLoading && (
-                <View className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center bg-black/30">
-                    <View className="bg-white p-6 rounded-2xl shadow-lg">
-                        <ActivityIndicator size="large" color="#1e40af" />
-                    </View>
-                </View>
-            )}
-        </LoaderContext.Provider>
-    )
-}
+  return (
+    <LoaderContext.Provider value={{ showLoader, hideLoader, isLoading }}>
+      {children}
+      {isLoading && (
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9999,
+            elevation: 9999,
+            backgroundColor: "rgba(0,0,0,0.3)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View className="bg-white p-4 rounded-3xl items-center justify-center w-40 h-40">
+            <LottieView
+              source={require("@/assets/animations/loading.json")}
+              autoPlay
+              loop
+              style={{ width: 120, height: 120 }}
+            />
+          </View>
+        </View>
+      )}
+    </LoaderContext.Provider>
+  );
+};

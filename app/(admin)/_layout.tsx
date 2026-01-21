@@ -1,5 +1,7 @@
+import { LoadProvider } from "@/context/LoderContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { AlertNotificationRoot } from "react-native-alert-notification";
 
 const tabs = [
   { name: "dashboard", icon: "dashboard", title: "OverView" },
@@ -10,19 +12,23 @@ const tabs = [
 
 const AdminLayout = () => {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
-      {tabs.map((tab) => (
-        <Tabs.Screen
-          key={tab.name}
-          name={tab.name}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name={tab.icon} color={color} size={size} />
-            ),
-          }}
-        />
-      ))}
-    </Tabs>
+    <AlertNotificationRoot>
+      <LoadProvider>
+        <Tabs screenOptions={{ headerShown: false }}>
+          {tabs.map((tab) => (
+            <Tabs.Screen
+              key={tab.name}
+              name={tab.name}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialIcons name={tab.icon} color={color} size={size} />
+                ),
+              }}
+            />
+          ))}
+        </Tabs>
+      </LoadProvider>
+    </AlertNotificationRoot>
   );
 };
 export default AdminLayout;
