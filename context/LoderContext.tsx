@@ -42,7 +42,7 @@ export const LoadProvider = ({ children }: { children: ReactNode }) => {
               source={require("@/assets/animations/loading.json")}
               autoPlay
               loop
-              style={{ width: 120, height: 120 }}
+              style={{ width: 150, height: 150 }}
             />
           </View>
         </View>
