@@ -43,7 +43,7 @@ export const getAllMatches = async () => {
       return {
         id: dataSet.id,
         title: data.title as string,
-        venue: data.vanue as string,
+        venue: data.venue as string,
         date: data.date as string,
         teamA: data.teamA as Country,
         teamB: data.teamB as Country,
