@@ -84,7 +84,6 @@ const Matches = () => {
         New Match
       </Text>
 
-      {/* Team Select */}
       <View className="flex-row justify-between items-center mb-10">
         <TeamSelectCard
           label="Team A"
@@ -109,7 +108,6 @@ const Matches = () => {
         />
       </View>
 
-      {/* Date & Time */}
       <View className="flex-row justify-between mb-5">
         <TouchableOpacity
           onPress={() => setShowDatePicker(true)}
@@ -157,7 +155,6 @@ const Matches = () => {
         />
       )}
 
-      {/* Inputs */}
       <View className="bg-slate-900/50 p-6 rounded-[35px] mb-10">
         <AddMatchModal
           label="Match Title"
