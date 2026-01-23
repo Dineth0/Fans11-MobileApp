@@ -14,11 +14,10 @@ interface Match {
 }
 interface Select11Data {
   matchId: string;
-  matchTitle: Match;
-  matchDay: Match;
+  matchTitle: string;
+
   select11: Player[];
-  countryName: Country;
-  wicketkeeperId: string;
+  countryName: string;
   captainId: string;
 }
 export const addSelect11 = async (

@@ -1,8 +1,9 @@
 import { PlayerItem } from "@/components/home/PlayerItem";
 import { useLoader } from "@/hooks/useLoader";
 import { getPlayersByCountry } from "@/services/playerService";
+import { addSelect11 } from "@/services/select11Service";
 import { Player } from "@/types/player";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   Dimensions,
@@ -12,6 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
@@ -23,6 +25,7 @@ const PickSquadScreen = () => {
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
   const { showLoader, hideLoader, isLoading } = useLoader();
   const [captainId, setCaptainId] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const loadPlayers = async () => {
@@ -56,6 +59,35 @@ const PickSquadScreen = () => {
       if (selectedPlayers.length < 11) {
         setSelectedPlayers((prev) => [...prev, playerId]);
       }
+    }
+  };
+
+  const handleComfirmTeam = async () => {
+    const selectedFullDetails = players.filter((p) =>
+      selectedPlayers.includes(p.id),
+    );
+    try {
+      showLoader();
+      await addSelect11({
+        matchId: matchId as string,
+        matchTitle: teamName as string,
+        select11: selectedFullDetails,
+        countryName: teamName as string,
+        captainId: captainId || "",
+      });
+      Toast.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: "Success",
+        textBody: "Your Added Successfully",
+        autoClose: 3000,
+      });
+      setTimeout(() => {
+        router.replace("/(home)/matches");
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -149,7 +181,10 @@ const PickSquadScreen = () => {
 
             {isTeamValid && (
               <View className="absolute bottom-10 w-full px-10">
-                <TouchableOpacity className="bg-emerald-500 py-4 rounded-2xl items-center shadow-2xl shadow-emerald-500/50">
+                <TouchableOpacity
+                  className="bg-emerald-500 py-4 rounded-2xl items-center shadow-2xl shadow-emerald-500/50"
+                  onPress={handleComfirmTeam}
+                >
                   <Text className="text-black font-black text-lg uppercase tracking-widest">
                     Confirm Team
                   </Text>

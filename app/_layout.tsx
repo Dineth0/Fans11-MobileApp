@@ -1,25 +1,27 @@
 // app/_layout.tsx
 import { AuthProvider } from "@/context/AuthContext";
 import { LoadProvider } from "@/context/LoderContext";
-import { Stack } from "expo-router"; // Slot වෙනුවට Stack ගන්න
+import { Stack } from "expo-router";
 import React from "react";
+import { AlertNotificationRoot } from "react-native-alert-notification";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
 
 const RootLayout = () => {
   return (
     <SafeAreaProvider>
-      <LoadProvider>
-        <AuthProvider>
-          {/* Slot වෙනුවට Stack එකක් භාවිතා කිරීමෙන් Navigation Context එකක් ලැබෙනවා */}
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="welcomescreen" />
-            <Stack.Screen name="(admin)" />
-            <Stack.Screen name="(home)" />
-          </Stack>
-        </AuthProvider>
-      </LoadProvider>
+      <AlertNotificationRoot>
+        <LoadProvider>
+          <AuthProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="welcomescreen" />
+              <Stack.Screen name="(admin)" />
+              <Stack.Screen name="(home)" />
+            </Stack>
+          </AuthProvider>
+        </LoadProvider>
+      </AlertNotificationRoot>
     </SafeAreaProvider>
   );
 };
