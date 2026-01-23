@@ -11,7 +11,12 @@ interface Props {
     teamA: Country;
     teamB: Country;
   };
-  onSelectTeam: (matchId: string, team: "A" | "B", teamData: Country) => void;
+  onSelectTeam: (
+    matchId: string,
+    team: "A" | "B",
+    teamData: Country,
+    matchTitle: string,
+  ) => void;
 }
 
 const UserSideMatchShowCard = ({ match, onSelectTeam }: Props) => {
@@ -47,7 +52,9 @@ const UserSideMatchShowCard = ({ match, onSelectTeam }: Props) => {
 
         <View className="flex-row items-center justify-around py-8 px-2">
           <TouchableOpacity
-            onPress={() => onSelectTeam(match.id, "A", match.teamA)}
+            onPress={() =>
+              onSelectTeam(match.id, "A", match.teamA, match.title)
+            }
             className="items-center flex-1"
           >
             <View className="relative">
@@ -78,7 +85,9 @@ const UserSideMatchShowCard = ({ match, onSelectTeam }: Props) => {
           </View>
 
           <TouchableOpacity
-            onPress={() => onSelectTeam(match.id, "B", match.teamB)}
+            onPress={() =>
+              onSelectTeam(match.id, "B", match.teamB, match.title)
+            }
             className="items-center flex-1"
           >
             <View className="relative">

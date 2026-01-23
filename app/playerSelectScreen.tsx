@@ -20,7 +20,7 @@ const { width } = Dimensions.get("window");
 const COLUMN_WIDTH = width / 3;
 
 const PickSquadScreen = () => {
-  const { matchId, teamName } = useLocalSearchParams();
+  const { matchId, teamName, matchTitle } = useLocalSearchParams();
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
   const { showLoader, hideLoader, isLoading } = useLoader();
@@ -70,7 +70,7 @@ const PickSquadScreen = () => {
       showLoader();
       await addSelect11({
         matchId: matchId as string,
-        matchTitle: teamName as string,
+        matchTitle: matchTitle as string,
         select11: selectedFullDetails,
         countryName: teamName as string,
         captainId: captainId || "",

@@ -29,6 +29,7 @@ const Matches = () => {
     matchId: string,
     teamSide: "A" | "B",
     teamData: any,
+    matchTitle: string,
   ) => {
     console.log(teamData.name);
     router.push({
@@ -37,6 +38,7 @@ const Matches = () => {
         matchId: matchId,
         teamName: teamData.name,
         teamSide: teamSide,
+        matchTitle: matchTitle,
       },
     });
   };
