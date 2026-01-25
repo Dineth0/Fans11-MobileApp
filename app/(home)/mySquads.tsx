@@ -49,7 +49,9 @@ const MySquads = () => {
         <FlatList
           data={posts}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <SelectionPostCard post={item} />}
+          renderItem={({ item }) => (
+            <SelectionPostCard post={item} isHome={false} />
+          )}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}

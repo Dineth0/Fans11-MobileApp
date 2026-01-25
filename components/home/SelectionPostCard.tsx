@@ -1,7 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
-const SelectionPostCard = ({ post }: { post: any }) => {
+interface Props {
+  post: any;
+  isHome: boolean;
+}
+
+const SelectionPostCard = ({ post, isHome = true }: Props) => {
   const teamData = post.select11 || [];
   const teamName = post.countryName;
 
@@ -44,7 +49,6 @@ const SelectionPostCard = ({ post }: { post: any }) => {
           <Text className="text-zinc-400 text-[9px] font-bold">{teamName}</Text>
         </View>
       </View>
-
       <View className="p-4">
         <View className="flex-row justify-between mb-4">
           <View className="bg-zinc-800 px-3 py-1 rounded-full">
@@ -99,12 +103,23 @@ const SelectionPostCard = ({ post }: { post: any }) => {
       </View>
 
       <View className="flex-row justify-between items-center p-4 bg-zinc-950 border-t border-zinc-800">
-        <View className="flex-row space-x-6">
-          <TouchableOpacity className="flex-row items-center space-x-2">
-            <Ionicons name="heart-outline" size={22} color="#fff" />
-            <Text className="text-zinc-400 text-xs">Like</Text>
-          </TouchableOpacity>
-        </View>
+        {isHome ? (
+          <View className="flex-row space-x-6">
+            <TouchableOpacity className="flex-row items-center space-x-2">
+              <Ionicons name="heart-outline" size={22} color="#fff" />
+              <Text className="text-zinc-400 text-xs">Like</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View className="flex-row space-x-6">
+            <TouchableOpacity className="flex-row items-center space-x-5 mr-3">
+              <Ionicons name="create-outline" size={22} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity className="flex-row items-center space-x-5">
+              <Ionicons name="trash-bin" size={22} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </View>
   );

@@ -46,7 +46,9 @@ const Home = () => {
         <FlatList
           data={posts}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <SelectionPostCard post={item} />}
+          renderItem={({ item }) => (
+            <SelectionPostCard post={item} isHome={true} />
+          )}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
