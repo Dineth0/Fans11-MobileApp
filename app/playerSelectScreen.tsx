@@ -24,7 +24,7 @@ const PickSquadScreen = () => {
   const { matchId, teamName, matchTitle } = useLocalSearchParams();
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
-  const { showLoader, hideLoader, isLoading } = useLoader();
+  const { showLoader, hideLoader } = useLoader();
   const [captainId, setCaptainId] = useState<string | null>(null);
   const router = useRouter();
   const { user } = useAuth();

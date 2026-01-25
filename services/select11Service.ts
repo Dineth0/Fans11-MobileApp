@@ -1,5 +1,11 @@
 import { Player } from "@/types/player";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query
+} from "firebase/firestore";
 import { db } from "./firebase";
 
 const select11Collect = collection(db, "selected11s");
@@ -23,6 +29,21 @@ export const addSelect11 = async (
       createdAt: new Date(),
     });
     return doc.id;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getAllSelection11s = async () => {
+  try {
+    const q = query(select11Collect, orderBy("createdAt", "desc"));
+    const snaphot = await getDocs(q);
+
+    return snaphot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
   } catch (error) {
     console.error(error);
     throw error;
