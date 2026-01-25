@@ -1,4 +1,5 @@
 import { PlayerItem } from "@/components/home/PlayerItem";
+import { useAuth } from "@/hooks/useAuth";
 import { useLoader } from "@/hooks/useLoader";
 import { getPlayersByCountry } from "@/services/playerService";
 import { addSelect11 } from "@/services/select11Service";
@@ -26,6 +27,7 @@ const PickSquadScreen = () => {
   const { showLoader, hideLoader, isLoading } = useLoader();
   const [captainId, setCaptainId] = useState<string | null>(null);
   const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
     const loadPlayers = async () => {
@@ -63,6 +65,14 @@ const PickSquadScreen = () => {
   };
 
   const handleComfirmTeam = async () => {
+    if (!user) {
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Error",
+        textBody: "Please login to save your team",
+      });
+      return;
+    }
     const selectedFullDetails = players.filter((p) =>
       selectedPlayers.includes(p.id),
     );
@@ -74,6 +84,9 @@ const PickSquadScreen = () => {
         select11: selectedFullDetails,
         countryName: teamName as string,
         captainId: captainId || "",
+        userId: user.uid,
+        userName: user.displayName || "",
+        userImage: user.photoURL || "",
       });
       Toast.show({
         type: ALERT_TYPE.SUCCESS,
