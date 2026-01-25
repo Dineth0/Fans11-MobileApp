@@ -5,7 +5,7 @@ import {
   getDocs,
   orderBy,
   query,
-  where
+  where,
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
 
@@ -51,7 +51,7 @@ export const getAllSelection11s = async () => {
   }
 };
 
-export const getSelection11sByUser = async (id: string) => {
+export const getSelection11sByUser = async () => {
   const user = auth.currentUser;
   if (!user) throw new Error("User not authenticated.");
 
