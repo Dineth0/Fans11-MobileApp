@@ -2,6 +2,9 @@ import { Player } from "@/types/player";
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
@@ -72,4 +75,17 @@ export const getSelection11sByUser = async () => {
     console.error(error);
     throw error;
   }
+};
+
+export const deleteMySelection11 = async (id: string) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("User not authenticated.");
+
+  const ref = doc(db, "selected11s", id);
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) throw new Error("Task not found");
+  if (snap.data().userId !== user.uid) throw new Error("Unauthorized");
+
+  await deleteDoc(ref);
 };
