@@ -4,9 +4,10 @@ import {
   collection,
   getDocs,
   orderBy,
-  query
+  query,
+  where
 } from "firebase/firestore";
-import { db } from "./firebase";
+import { auth, db } from "./firebase";
 
 const select11Collect = collection(db, "selected11s");
 
@@ -41,6 +42,29 @@ export const getAllSelection11s = async () => {
     const snaphot = await getDocs(q);
 
     return snaphot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getSelection11sByUser = async (id: string) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("User not authenticated.");
+
+  try {
+    const q = query(
+      select11Collect,
+      where("userId", "==", user.uid),
+      orderBy("createdAt", "desc"),
+    );
+
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
