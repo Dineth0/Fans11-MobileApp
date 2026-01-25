@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 const SelectionPostCard = ({ post }: { post: any }) => {
   const teamData = post.select11 || [];
@@ -9,6 +9,14 @@ const SelectionPostCard = ({ post }: { post: any }) => {
   const wicketKeeper = teamData.find((p: any) =>
     p.role?.toLowerCase().includes("wicketkeeper"),
   );
+
+  const formatedDate = (timestamp: any) => {
+    if (!timestamp) {
+      return "";
+    }
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return date.toLocaleDateString();
+  };
 
   return (
     <View className="bg-zinc-900 mb-6 rounded-3xl overflow-hidden border border-zinc-800 shadow-xl shadow-black/50 mx-4">
@@ -20,7 +28,12 @@ const SelectionPostCard = ({ post }: { post: any }) => {
             </Text>
           </View>
           <View className="">
-            <Text className="text-zinc-500 text-[10px]">{post.createdAt}</Text>
+            <Text className="text-white font-bold text-sm ml-2">
+              {post.userName || "Anonymous"}
+            </Text>
+            <Text className="text-zinc-500 text-[10px] ml-2">
+              {formatedDate(post.createdAt)}
+            </Text>
           </View>
         </View>
 
@@ -58,15 +71,23 @@ const SelectionPostCard = ({ post }: { post: any }) => {
               key={index}
               className="w-[32%] mb-3 items-center bg-zinc-950/50 p-2 rounded-xl border border-zinc-800/50"
             >
-              <Text className="text-[9px] text-emerald-500/70 font-bold mb-1 uppercase">
-                {player.role}
-              </Text>
+              <View className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500 items-center justify-center">
+                <Image
+                  source={{ uri: player.image }}
+                  className="w-full h-full rounded-full"
+                  resizeMode="cover"
+                />
+              </View>
               <Text
-                className="text-zinc-300 text-[11px] font-bold text-center"
+                className="text-zinc-300 text-[12px] font-bold text-center"
                 numberOfLines={1}
               >
                 {player.name}
               </Text>
+              {/* <Text className="text-[7px] text-emerald-500/70 font-bold mb-1 uppercase">
+                {player.role}
+              </Text> */}
+
               {player.id === post.captainId && (
                 <View className="absolute -top-1 -right-1 bg-amber-500 w-4 h-4 rounded-full items-center justify-center">
                   <Text className="text-[8px] text-black font-bold">C</Text>

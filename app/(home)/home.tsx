@@ -23,7 +23,7 @@ const Home = () => {
       }
     };
     loadData();
-  });
+  }, []);
 
   const handleRefresh = async () => {
     setRefreshing(true);
