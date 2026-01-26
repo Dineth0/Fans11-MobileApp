@@ -34,12 +34,16 @@ const MySquads = () => {
     setRefreshing(false);
   };
 
+  const handleRemovePostFromUI = (postId: string) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+  };
+
   return (
     <View className="flex-1 bg-black">
       <SafeAreaView className="flex-1">
         <View className="px-6 py-4 border-b border-zinc-800">
           <Text className="text-white text-2xl font-black italic">
-            PUBLIC<Text className="text-emerald-500">FEED</Text>
+            MY<Text className="text-emerald-500">SQUADS</Text>
           </Text>
           <Text className="text-zinc-500 text-[10px] uppercase tracking-widest">
             See what others are picking
@@ -50,7 +54,11 @@ const MySquads = () => {
           data={posts}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <SelectionPostCard post={item} isHome={false} />
+            <SelectionPostCard
+              post={item}
+              isHome={false}
+              onDeleteSuccess={handleRemovePostFromUI}
+            />
           )}
           refreshControl={
             <RefreshControl

@@ -1,14 +1,18 @@
+import { useLoader } from "@/hooks/useLoader";
+import { deleteMySelection11 } from "@/services/select11Service";
 import { Ionicons } from "@expo/vector-icons";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 
 interface Props {
   post: any;
   isHome: boolean;
+  onDeleteSuccess?: (id: string) => void;
 }
 
-const SelectionPostCard = ({ post, isHome = true }: Props) => {
+const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
   const teamData = post.select11 || [];
   const teamName = post.countryName;
+  const { showLoader, hideLoader } = useLoader();
 
   const captain = teamData.find((p: any) => p.id === post.captainId);
   const wicketKeeper = teamData.find((p: any) =>
@@ -21,6 +25,33 @@ const SelectionPostCard = ({ post, isHome = true }: Props) => {
     }
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     return date.toLocaleDateString();
+  };
+
+  const handleDelete = async (id: string) => {
+    Alert.alert(
+      "Confirm Delete",
+      "Are you sure you want to delete this task?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            showLoader();
+            try {
+              await deleteMySelection11(id);
+              if (onDeleteSuccess) {
+                onDeleteSuccess(id);
+              }
+            } catch {
+              Alert.alert("Error", "Could not delete task");
+            } finally {
+              hideLoader();
+            }
+          },
+        },
+      ],
+    );
   };
 
   return (
@@ -115,7 +146,10 @@ const SelectionPostCard = ({ post, isHome = true }: Props) => {
             <TouchableOpacity className="flex-row items-center space-x-5 mr-3">
               <Ionicons name="create-outline" size={22} color="#fff" />
             </TouchableOpacity>
-            <TouchableOpacity className="flex-row items-center space-x-5">
+            <TouchableOpacity
+              className="flex-row items-center space-x-5"
+              onPress={() => handleDelete(post.id)}
+            >
               <Ionicons name="trash-bin" size={22} color="#fff" />
             </TouchableOpacity>
           </View>
