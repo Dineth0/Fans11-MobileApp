@@ -8,6 +8,7 @@ import {
   getDocs,
   orderBy,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
@@ -106,4 +107,29 @@ export const getSelection11sById = async (id: string) => {
     id: selection11Doc.id,
     ...data,
   };
+};
+
+export const updateMySelection11s = async (
+  id: string,
+  updateData: Partial<Select11Data>,
+) => {
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated.");
+
+    const ref = doc(db, "tasks", id);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) throw new Error("Task not found");
+
+    const data = snap.data();
+    if (data.userId !== user.uid) throw new Error("Unauthorized");
+
+    await updateDoc(ref, {
+      ...updateData,
+      updatedAt: new Date(),
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };

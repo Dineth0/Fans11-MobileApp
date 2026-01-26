@@ -1,6 +1,7 @@
 import { useLoader } from "@/hooks/useLoader";
 import { deleteMySelection11 } from "@/services/select11Service";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 
 interface Props {
@@ -13,6 +14,7 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
   const teamData = post.select11 || [];
   const teamName = post.countryName;
   const { showLoader, hideLoader } = useLoader();
+  const router = useRouter();
 
   const captain = teamData.find((p: any) => p.id === post.captainId);
   const wicketKeeper = teamData.find((p: any) =>
@@ -143,7 +145,21 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
           </View>
         ) : (
           <View className="flex-row space-x-6">
-            <TouchableOpacity className="flex-row items-center space-x-5 mr-3">
+            <TouchableOpacity
+              className="flex-row items-center space-x-5 mr-3"
+              onPress={() =>
+                router.push({
+                  pathname: "/playerSelectScreen",
+                  params: {
+                    edit: "true",
+                    postId: post.id,
+                    teamName: post.countryName,
+                    matchTitle: post.matchTitle,
+                    matchId: post.matchId,
+                  },
+                })
+              }
+            >
               <Ionicons name="create-outline" size={22} color="#fff" />
             </TouchableOpacity>
             <TouchableOpacity
