@@ -100,7 +100,7 @@ export const getSelection11sById = async (id: string) => {
 
   if (!selection11Doc.exists()) throw new Error("selection11 not found");
 
-  const data = selection11Doc.data();
+  const data = selection11Doc.data() as Select11Data;
   if (data.userId !== user.uid) throw new Error("Unauthorized");
 
   return {

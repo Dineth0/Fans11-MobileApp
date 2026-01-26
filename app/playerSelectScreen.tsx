@@ -2,7 +2,11 @@ import { PlayerItem } from "@/components/home/PlayerItem";
 import { useAuth } from "@/hooks/useAuth";
 import { useLoader } from "@/hooks/useLoader";
 import { getPlayersByCountry } from "@/services/playerService";
-import { addSelect11 } from "@/services/select11Service";
+import {
+  addSelect11,
+  getSelection11sById,
+  updateMySelection11s,
+} from "@/services/select11Service";
 import { Player } from "@/types/player";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -21,13 +25,15 @@ const { width } = Dimensions.get("window");
 const COLUMN_WIDTH = width / 3;
 
 const PickSquadScreen = () => {
-  const { matchId, teamName, matchTitle } = useLocalSearchParams();
+  const { matchId, teamName, matchTitle, edit, postId } =
+    useLocalSearchParams();
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
   const { showLoader, hideLoader } = useLoader();
   const [captainId, setCaptainId] = useState<string | null>(null);
   const router = useRouter();
   const { user } = useAuth();
+  const isEdit = edit === "true";
 
   useEffect(() => {
     const loadPlayers = async () => {
@@ -46,6 +52,29 @@ const PickSquadScreen = () => {
     loadPlayers();
   }, [teamName]);
 
+  useEffect(() => {
+    const loadExistingSelection11s = async () => {
+      if (isEdit && postId) {
+        try {
+          showLoader();
+          const data = await getSelection11sById(postId as string);
+          const playerIds = data.select11.map((p: any) => p.id);
+          setSelectedPlayers(playerIds);
+          setCaptainId(data.captainId);
+        } catch (error) {
+          console.error(error);
+          Toast.show({
+            type: ALERT_TYPE.DANGER,
+            title: "Error",
+            textBody: "Faild load select squad",
+          });
+        } finally {
+          hideLoader();
+        }
+      }
+    };
+    loadExistingSelection11s();
+  }, [isEdit, postId]);
   const findKipper = players
     .filter((p) => selectedPlayers.includes(p.id))
     .some((p) => p.role.toLowerCase().includes("wicketkeeper"));
@@ -76,24 +105,36 @@ const PickSquadScreen = () => {
     const selectedFullDetails = players.filter((p) =>
       selectedPlayers.includes(p.id),
     );
+    const squadData = {
+      matchId: matchId as string,
+      matchTitle: matchTitle as string,
+      select11: selectedFullDetails,
+      countryName: teamName as string,
+      captainId: captainId || "",
+      userId: user.uid,
+      userName: user.displayName || "",
+      userImage: user.photoURL || "",
+    };
     try {
       showLoader();
-      await addSelect11({
-        matchId: matchId as string,
-        matchTitle: matchTitle as string,
-        select11: selectedFullDetails,
-        countryName: teamName as string,
-        captainId: captainId || "",
-        userId: user.uid,
-        userName: user.displayName || "",
-        userImage: user.photoURL || "",
-      });
-      Toast.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: "Success",
-        textBody: "Your Added Successfully",
-        autoClose: 3000,
-      });
+      if (isEdit && postId) {
+        await updateMySelection11s(postId as string, squadData);
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "Your update Successfully",
+          autoClose: 3000,
+        });
+      } else {
+        await addSelect11(squadData);
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "Your added Successfully",
+          autoClose: 3000,
+        });
+      }
+
       setTimeout(() => {
         router.replace("/(home)/matches");
       }, 1500);
