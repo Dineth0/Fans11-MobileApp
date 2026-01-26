@@ -117,10 +117,10 @@ export const updateMySelection11s = async (
     const user = auth.currentUser;
     if (!user) throw new Error("User not authenticated.");
 
-    const ref = doc(db, "tasks", id);
+    const ref = doc(db, "selected11s", id);
     const snap = await getDoc(ref);
 
-    if (!snap.exists()) throw new Error("Task not found");
+    if (!snap.exists()) throw new Error("selected11s not found");
 
     const data = snap.data();
     if (data.userId !== user.uid) throw new Error("Unauthorized");
