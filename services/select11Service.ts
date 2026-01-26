@@ -89,3 +89,21 @@ export const deleteMySelection11 = async (id: string) => {
 
   await deleteDoc(ref);
 };
+
+export const getSelection11sById = async (id: string) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("User not authenticated.");
+
+  const ref = doc(db, "selected11s", id);
+  const selection11Doc = await getDoc(ref);
+
+  if (!selection11Doc.exists()) throw new Error("selection11 not found");
+
+  const data = selection11Doc.data();
+  if (data.userId !== user.uid) throw new Error("Unauthorized");
+
+  return {
+    id: selection11Doc.id,
+    ...data,
+  };
+};
