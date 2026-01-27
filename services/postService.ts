@@ -1,17 +1,15 @@
 import {
-    arrayRemove,
-    arrayUnion,
-    collection,
-    doc,
-    getDoc,
-    setDoc,
-    updateDoc,
+  arrayRemove,
+  arrayUnion,
+  doc,
+  getDoc,
+  onSnapshot,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
 
-const postCollect = collection(db, "posts");
-
-export const addReactions = async (
+export const addReaction = async (
   select11PostId: string,
   userId: string,
   type: "like" | "dislike",
@@ -50,4 +48,16 @@ export const addReactions = async (
   } catch (error) {
     console.error(error);
   }
+};
+
+export const getReactions = (postId: string, callback: (data: any) => void) => {
+  const ref = doc(db, "postReactions", postId);
+
+  return onSnapshot(ref, (docSnap) => {
+    if (docSnap.exists()) {
+      callback(docSnap.data());
+    } else {
+      callback({ likes: [], dislikes: [] });
+    }
+  });
 };

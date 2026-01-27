@@ -1,7 +1,10 @@
+import { useAuth } from "@/hooks/useAuth";
 import { useLoader } from "@/hooks/useLoader";
+import { addReaction, getReactions } from "@/services/postService";
 import { deleteMySelection11 } from "@/services/select11Service";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 
 interface Props {
@@ -15,6 +18,14 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
   const teamName = post.countryName;
   const { showLoader, hideLoader } = useLoader();
   const router = useRouter();
+  const { user } = useAuth();
+  const [userReaction, setUserReaction] = useState<{
+    likes: string[];
+    dislikes: string[];
+  }>({
+    likes: [],
+    dislikes: [],
+  });
 
   const captain = teamData.find((p: any) => p.id === post.captainId);
   const wicketKeeper = teamData.find((p: any) =>
@@ -54,6 +65,29 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
         },
       ],
     );
+  };
+
+  useEffect(() => {
+    if (!isHome) return;
+
+    const loadData = getReactions(post.id, (data) => {
+      setUserReaction(data);
+    });
+    return () => loadData();
+  }, [post.id]);
+
+  const addReactions = async (type: "like" | "dislike") => {
+    if (!user) {
+      Alert.alert("Login Required", "Please login to react to this post");
+      return;
+    }
+
+    try {
+      await addReaction(post.id, user.uid, type);
+    } catch (error) {
+      console.error("Reaction error:", error);
+      Alert.alert("Error", "Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -139,15 +173,41 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
         {isHome ? (
           <View className="flex-row justify-between  w-full">
             <View className="flex-row items-center space-x-2">
-              <TouchableOpacity className="flex-row items-center space-x-2 mr-4">
-                <Ionicons name="heart-outline" size={22} color="#fff" />
+              <TouchableOpacity
+                className="flex-row items-center space-x-2 mr-4"
+                onPress={() => addReactions("like")}
+              >
+                <Ionicons
+                  name={
+                    userReaction.likes.includes(user?.uid as string)
+                      ? "heart"
+                      : "heart-outline"
+                  }
+                  size={22}
+                  color={
+                    userReaction.likes.includes(user?.uid as string)
+                      ? "#f43f5e"
+                      : "#fff"
+                  }
+                />
               </TouchableOpacity>
 
-              <TouchableOpacity className="flex-row items-center space-x-2 mr-4">
+              <TouchableOpacity
+                className="flex-row items-center space-x-2 mr-4"
+                onPress={() => addReactions("dislike")}
+              >
                 <MaterialIcons
-                  name="thumb-down-off-alt"
+                  name={
+                    userReaction.dislikes.includes(user?.uid as string)
+                      ? "thumb-down"
+                      : "thumb-down-off-alt"
+                  }
                   size={24}
-                  color="#fff"
+                  color={
+                    userReaction.dislikes.includes(user?.uid as string)
+                      ? "#fbbf24"
+                      : "#fff"
+                  }
                 />
               </TouchableOpacity>
             </View>
