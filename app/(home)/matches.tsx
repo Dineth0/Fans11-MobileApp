@@ -47,20 +47,9 @@ const Matches = () => {
     <View className="flex-1 bg-[#050505]">
       <StatusBar barStyle="light-content" />
 
-      <View className="absolute top-0 left-0 right-0 h-64 bg-emerald-600/5 blur-[100px] rounded-full" />
-
       <SafeAreaView className="flex-1">
-        <View className="px-8 pt-4 pb-8">
-          <Text className="text-zinc-500 text-[10px] font-black uppercase tracking-[5px] mb-1">
-            Fans11
-          </Text>
-
-          <View className="flex-row items-baseline">
-            <Text className="text-white text-4xl font-black italic tracking-tighter">
-              BATTLE<Text className="text-emerald-500">GROUND</Text>
-            </Text>
-          </View>
-          <View className="h-1 w-12 bg-emerald-500 rounded-full mt-2" />
+        <View className="px-6 py-4 border-b border-zinc-800">
+          <Text className="text-white text-2xl font-black italic">Matches</Text>
         </View>
 
         <FlatList

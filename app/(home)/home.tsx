@@ -34,8 +34,8 @@ const Home = () => {
   return (
     <View className="flex-1 bg-black">
       <SafeAreaView className="flex-1">
-        <View className="px-6 py-4 border-b border-zinc-800">
-          <Text className="text-white text-2xl font-black italic">
+        <View className="px-6  border-b border-zinc-800">
+          <Text className="text-white text-[20px] font-black italic">
             PUBLIC<Text className="text-emerald-500">FEED</Text>
           </Text>
           <Text className="text-zinc-500 text-[10px] uppercase tracking-widest">
