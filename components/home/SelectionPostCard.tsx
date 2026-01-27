@@ -1,6 +1,6 @@
 import { useLoader } from "@/hooks/useLoader";
 import { deleteMySelection11 } from "@/services/select11Service";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 
@@ -137,10 +137,26 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
 
       <View className="flex-row justify-between items-center p-4 bg-zinc-950 border-t border-zinc-800">
         {isHome ? (
-          <View className="flex-row space-x-6">
-            <TouchableOpacity className="flex-row items-center space-x-2">
-              <Ionicons name="heart-outline" size={22} color="#fff" />
-              <Text className="text-zinc-400 text-xs">Like</Text>
+          <View className="flex-row justify-between  w-full">
+            <View className="flex-row items-center space-x-2">
+              <TouchableOpacity className="flex-row items-center space-x-2 mr-4">
+                <Ionicons name="heart-outline" size={22} color="#fff" />
+              </TouchableOpacity>
+
+              <TouchableOpacity className="flex-row items-center space-x-2 mr-4">
+                <MaterialIcons
+                  name="thumb-down-off-alt"
+                  size={24}
+                  color="#fff"
+                />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity>
+              <Ionicons
+                name="chatbubble-ellipses-outline"
+                size={24}
+                color="#fff"
+              />
             </TouchableOpacity>
           </View>
         ) : (
