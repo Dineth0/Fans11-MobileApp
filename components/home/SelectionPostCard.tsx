@@ -6,6 +6,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
+import { CommentModel } from "./CommentModel";
 
 interface Props {
   post: any;
@@ -26,6 +27,8 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
     likes: [],
     dislikes: [],
   });
+
+  const [isCommentModal, setIsCommentModal] = useState(false);
 
   const captain = teamData.find((p: any) => p.id === post.captainId);
   const wicketKeeper = teamData.find((p: any) =>
@@ -211,7 +214,7 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
                 />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsCommentModal(true)}>
               <Ionicons
                 name="chatbubble-ellipses-outline"
                 size={24}
@@ -247,6 +250,10 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
           </View>
         )}
       </View>
+      <CommentModel
+        visible={isCommentModal}
+        onClose={() => setIsCommentModal(false)}
+      />
     </View>
   );
 };
