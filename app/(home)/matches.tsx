@@ -43,18 +43,21 @@ const Matches = () => {
     });
   };
 
+  const header = () => (
+    <View className="px-6 py-4 border-b border-zinc-800">
+      <Text className="text-white text-2xl font-black italic">Matches</Text>
+    </View>
+  );
+
   return (
     <View className="flex-1 bg-[#050505]">
       <StatusBar barStyle="light-content" />
 
       <SafeAreaView className="flex-1">
-        <View className="px-6 py-4 border-b border-zinc-800">
-          <Text className="text-white text-2xl font-black italic">Matches</Text>
-        </View>
-
         <FlatList
           data={matches}
           keyExtractor={(item) => item.id}
+          ListHeaderComponent={header}
           renderItem={({ item }) => (
             <UserSideMatchShowCard
               match={item}
