@@ -1,13 +1,15 @@
 import { useAuth } from "@/hooks/useAuth";
-import { logOutUser } from "@/services/authService";
+import { logOutUser, updateUserProfile } from "@/services/authService";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 const Profile = () => {
   const { user } = useAuth();
-  const [profileImage, setProfileImage] = useState();
+  const [profileImage, setProfileImage] = useState<string | null>(null);
   const router = useRouter();
 
   const handleLogOut = async () => {
@@ -29,7 +31,33 @@ const Profile = () => {
     ]);
   };
 
-  const addProfileImage = async () => {};
+  const addProfileImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5,
+      base64: true,
+    });
+    if (!result.canceled) {
+      const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+      setProfileImage(base64Image);
+
+      if (user?.uid) {
+        try {
+          await updateUserProfile(user.uid, base64Image);
+          Toast.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: "Success",
+            textBody: "Profile Updated Successfully",
+            autoClose: 3000,
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+  };
   return (
     <View className="flex-1 bg-black p-6">
       <View className="mt-10 mb-8">

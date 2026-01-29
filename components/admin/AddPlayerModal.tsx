@@ -1,13 +1,13 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import {
-    Image,
-    Modal,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  Modal,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export const AddPlayerModal = ({

@@ -56,3 +56,9 @@ export const logOutUser = async () => {
   AsyncStorage.clear();
   return;
 };
+
+export const updateUserProfile = async (id: string, image: string) => {
+  const userDoc = doc(db, "users", id);
+
+  await setDoc(userDoc, { image: image }, { merge: true });
+};
