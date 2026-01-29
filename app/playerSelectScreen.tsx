@@ -1,6 +1,7 @@
 import { PlayerItem } from "@/components/home/PlayerItem";
 import { useAuth } from "@/hooks/useAuth";
 import { useLoader } from "@/hooks/useLoader";
+import { getUserData } from "@/services/authService";
 import { getPlayersByCountry } from "@/services/playerService";
 import {
   addSelect11,
@@ -102,21 +103,24 @@ const PickSquadScreen = () => {
       });
       return;
     }
-    const selectedFullDetails = players.filter((p) =>
-      selectedPlayers.includes(p.id),
-    );
-    const squadData = {
-      matchId: matchId as string,
-      matchTitle: matchTitle as string,
-      select11: selectedFullDetails,
-      countryName: teamName as string,
-      captainId: captainId || "",
-      userId: user.uid,
-      userName: user.displayName || "",
-      userImage: user.photoURL || "",
-    };
     try {
+      const userData = await getUserData(user.uid);
+      const userImage = userData.image;
       showLoader();
+      const selectedFullDetails = players.filter((p) =>
+        selectedPlayers.includes(p.id),
+      );
+      const squadData = {
+        matchId: matchId as string,
+        matchTitle: matchTitle as string,
+        select11: selectedFullDetails,
+        countryName: teamName as string,
+        captainId: captainId || "",
+        userId: user.uid,
+        userName: user.displayName || "",
+        userImage: userImage,
+      };
+
       if (isEdit && postId) {
         await updateMySelection11s(postId as string, squadData);
         Toast.show({

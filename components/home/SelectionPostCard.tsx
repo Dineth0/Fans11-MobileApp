@@ -1,5 +1,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useLoader } from "@/hooks/useLoader";
+import { getUserData } from "@/services/authService";
 import { addComments, getComments } from "@/services/commentService";
 import { addReaction, getReactions } from "@/services/postService";
 import { deleteMySelection11 } from "@/services/select11Service";
@@ -115,16 +116,19 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
         title: "Error",
         textBody: "Please Login First",
       });
+      return;
     }
 
     showLoader();
 
     try {
+      const userData = await getUserData(user.uid);
+      const userImage = userData.image;
       await addComments(
         post.id,
         user?.uid as string,
         user?.displayName || "",
-        user?.photoURL || "",
+        userImage,
         comment,
       );
       setComment("");
@@ -139,10 +143,18 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
     <View className="bg-zinc-900 mb-6 rounded-3xl overflow-hidden border border-zinc-800 shadow-xl shadow-black/50 mx-4">
       <View className="flex-row items-center justify-between p-4 bg-zinc-800/30">
         <View className="flex-row items-center space-x-3">
-          <View className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500 items-center justify-center">
-            <Text className="text-emerald-500 font-bold text-lg">
-              {post.userName ? post.userName.charAt(0) : "?"}
-            </Text>
+          <View className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500 items-center justify-center overflow-hidden">
+            {post.userImage ? (
+              <Image
+                source={{ uri: post.userImage }}
+                className="w-full h-full"
+                resizeMode="cover"
+              />
+            ) : (
+              <Text className="text-emerald-500 font-bold text-lg">
+                {post.userName ? post.userName.charAt(0) : "?"}
+              </Text>
+            )}
           </View>
           <View className="">
             <Text className="text-white font-bold text-sm ml-2">
