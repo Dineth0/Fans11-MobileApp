@@ -1,11 +1,13 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useLoader } from "@/hooks/useLoader";
+import { addComments, getComments } from "@/services/commentService";
 import { addReaction, getReactions } from "@/services/postService";
 import { deleteMySelection11 } from "@/services/select11Service";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 import { CommentModel } from "./CommentModel";
 
 interface Props {
@@ -29,6 +31,8 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
   });
 
   const [isCommentModal, setIsCommentModal] = useState(false);
+  const [comment, setComment] = useState("");
+  const [commentList, setCommentList] = useState<any[]>([]);
 
   const captain = teamData.find((p: any) => p.id === post.captainId);
   const wicketKeeper = teamData.find((p: any) =>
@@ -42,6 +46,24 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     return date.toLocaleDateString();
   };
+
+  useEffect(() => {
+    if (!isHome) return;
+
+    const loadData = getReactions(post.id, (data) => {
+      setUserReaction(data);
+    });
+    return () => loadData();
+  }, [post.id]);
+
+  useEffect(() => {
+    if (!isCommentModal) return;
+
+    const loadComments = getComments(post.id, (commentData) => {
+      setCommentList(commentData);
+    });
+    return () => loadComments();
+  }, [post.id, isCommentModal]);
 
   const handleDelete = async (id: string) => {
     Alert.alert(
@@ -70,15 +92,6 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
     );
   };
 
-  useEffect(() => {
-    if (!isHome) return;
-
-    const loadData = getReactions(post.id, (data) => {
-      setUserReaction(data);
-    });
-    return () => loadData();
-  }, [post.id]);
-
   const addReactions = async (type: "like" | "dislike") => {
     if (!user) {
       Alert.alert("Login Required", "Please login to react to this post");
@@ -90,6 +103,35 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
     } catch (error) {
       console.error("Reaction error:", error);
       Alert.alert("Error", "Something went wrong. Please try again.");
+    }
+  };
+
+  const handleCommentSave = async () => {
+    if (!comment.trim()) return;
+
+    if (!user) {
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Error",
+        textBody: "Please Login First",
+      });
+    }
+
+    showLoader();
+
+    try {
+      await addComments(
+        post.id,
+        user?.uid as string,
+        user?.displayName || "",
+        user?.photoURL || "",
+        comment,
+      );
+      setComment("");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -253,6 +295,10 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
       <CommentModel
         visible={isCommentModal}
         onClose={() => setIsCommentModal(false)}
+        onSave={handleCommentSave}
+        setComment={setComment}
+        comment={comment}
+        commentsList={commentList}
       />
     </View>
   );

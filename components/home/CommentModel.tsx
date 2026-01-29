@@ -1,42 +1,99 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import {
-    Modal,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  KeyboardAvoidingView,
+  Modal,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
-const onSave = async () => {};
-
-export const CommentModel = ({ visible, onClose }: any) => (
+export const CommentModel = ({
+  visible,
+  onClose,
+  onSave,
+  setComment,
+  comment,
+  commentsList,
+}: any) => (
   <Modal visible={visible} animationType="slide" transparent>
-    <View className="flex-1 justify-end bg-black/80">
-      <View className="bg-slate-900 rounded-t-[40px] p-8 border-t border-slate-800">
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View className="flex-row justify-between items-center mb-8">
-            <Text className="text-white text-2xl font-bold">Comments</Text>
-            <TouchableOpacity onPress={onClose}>
-              <MaterialIcons name="close" size={28} color="white" />
-            </TouchableOpacity>
+    <KeyboardAvoidingView className="flex-1">
+      <View className="flex-1 justify-end bg-black/60">
+        <View className="bg-zinc-900 rounded-t-[40px] h-[85%] border-t border-zinc-800">
+          <View className="items-center pt-3 pb-5">
+            <View className="w-12 h-1 bg-zinc-700 rounded-full mb-4" />
+            <View className="flex-row justify-between items-center w-full px-8">
+              <Text className="text-white text-xl font-bold">
+                Comments ({commentsList.length || 0})
+              </Text>
+              <TouchableOpacity onPress={onClose}>
+                <MaterialIcons name="close" size={24} color="#a1a1aa" />
+              </TouchableOpacity>
+            </View>
           </View>
 
-          <TextInput
-            placeholder="Add Comment"
-            placeholderTextColor="gray"
-            className="bg-black/50 border border-slate-800 p-4 rounded-2xl text-white mb-8"
-          />
-
-          <TouchableOpacity
-            onPress={onSave}
-            className="bg-purple-600 py-5 rounded-2xl items-center"
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            className="flex-1 px-6"
+            contentContainerStyle={{ paddingBottom: 20 }}
           >
-            <Ionicons name="send" size={24} color="black" />
-          </TouchableOpacity>
-        </ScrollView>
+            {commentsList &&
+              commentsList.map((item: any) => (
+                <View key={item.id} className="flex-row mb-6 items-start">
+                  <View className="w-10 h-10 rounded-full bg-zinc-800 overflow-hidden border border-zinc-700 mr-3">
+                    {item.userImage ? (
+                      <Image
+                        source={{ uri: item.userImage }}
+                        className="w-full h-full"
+                      />
+                    ) : (
+                      <View className="items-center justify-center flex-1">
+                        <MaterialIcons
+                          name="person"
+                          size={20}
+                          color="#52525b"
+                        />
+                      </View>
+                    )}
+                  </View>
+                  <View className="flex-1">
+                    <View className="bg-zinc-800 p-3 rounded-2xl rounded-tl-none">
+                      <Text className="text-zinc-400 font-bold text-xs mb-1">
+                        {item.userName}
+                      </Text>
+                      <Text className="text-white text-[14px] leading-5">
+                        {item.comment}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+          </ScrollView>
+
+          <View className="p-4 px-6 border-t border-zinc-800 bg-zinc-900 pb-8">
+            <View className="flex-row items-center bg-zinc-800 rounded-3xl px-4 py-2 border border-zinc-700">
+              <TextInput
+                placeholder="Write a comment..."
+                value={comment}
+                onChangeText={setComment}
+                placeholderTextColor="#71717a"
+                multiline
+                className="flex-1 text-white text-[14px] max-h-24 py-2"
+              />
+              <TouchableOpacity
+                onPress={onSave}
+                disabled={!comment.trim()}
+                className={`ml-2 p-2 rounded-full ${comment.trim() ? "bg-blue-600" : "opacity-50"}`}
+              >
+                <Ionicons name="send" size={18} color="white" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   </Modal>
 );
