@@ -1,7 +1,11 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useLoader } from "@/hooks/useLoader";
 import { getUserData } from "@/services/authService";
-import { addComments, getComments } from "@/services/commentService";
+import {
+  addComments,
+  deleteComment,
+  getComments,
+} from "@/services/commentService";
 import { addReaction, getReactions } from "@/services/postService";
 import { deleteMySelection11 } from "@/services/select11Service";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -137,6 +141,32 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
     } finally {
       hideLoader();
     }
+  };
+
+  const handleCommentDelete = async (id: string) => {
+    Alert.alert(
+      "Delete Comment",
+      "Are you sure you want to delete this comment?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteComment(id);
+            } catch (error) {
+              console.error(error);
+              Toast.show({
+                type: ALERT_TYPE.DANGER,
+                title: "Error",
+                textBody: "Delete faild",
+              });
+            }
+          },
+        },
+      ],
+    );
   };
 
   return (
@@ -311,6 +341,8 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
         setComment={setComment}
         comment={comment}
         commentsList={commentList}
+        onDelete={handleCommentDelete}
+        currentUserId={user?.uid}
       />
     </View>
   );

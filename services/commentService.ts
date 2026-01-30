@@ -1,11 +1,14 @@
 import { Comment } from "@/types/Comments";
 import {
-    addDoc,
-    collection,
-    onSnapshot,
-    orderBy,
-    query,
-    where,
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
 
@@ -53,4 +56,21 @@ export const getComments = (
     }));
     callback(comments);
   });
+};
+
+export const deleteComment = async (id: string) => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("User not authenticated.");
+
+  try {
+    const ref = doc(db, "Comments", id);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) throw new Error("Task not found");
+    if (snap.data().userId !== user.uid) throw new Error("Unauthorized");
+
+    await deleteDoc(ref);
+  } catch (error) {
+    console.error(error);
+  }
 };

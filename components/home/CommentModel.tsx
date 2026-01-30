@@ -18,6 +18,8 @@ export const CommentModel = ({
   setComment,
   comment,
   commentsList,
+  onDelete,
+  currentUserId,
 }: any) => (
   <Modal visible={visible} animationType="slide" transparent>
     <KeyboardAvoidingView className="flex-1">
@@ -68,6 +70,17 @@ export const CommentModel = ({
                         {item.comment}
                       </Text>
                     </View>
+                    {currentUserId === item.userId && (
+                      <TouchableOpacity
+                        className="mt-2 flex-row items-center"
+                        onPress={() => onDelete(item.id)}
+                      >
+                        <Text className="text-zinc-500 text-xs mr-1">
+                          Delete
+                        </Text>
+                        <Ionicons name="trash-bin" size={12} color="#71717a" />
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
               ))}
