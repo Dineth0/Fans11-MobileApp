@@ -1,9 +1,9 @@
 import {
-    addDoc,
-    collection,
-    getDocs,
-    orderBy,
-    query,
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query,
 } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -18,6 +18,7 @@ interface MatchData {
   title: string;
   venue: string;
   date: string;
+  time: string;
   teamA: Country;
   teamB: Country;
 }
@@ -38,17 +39,19 @@ export const getAllMatches = async () => {
   try {
     const q = query(matchCollect, orderBy("createdAt", "desc"));
     const snaphot = await getDocs(q);
-    return snaphot.docs.map((dataSet) => {
-      const data = dataSet.data();
-      return {
-        id: dataSet.id,
-        title: data.title as string,
-        venue: data.venue as string,
-        date: data.date as string,
-        teamA: data.teamA as Country,
-        teamB: data.teamB as Country,
-      };
-    });
+    const now = new Date();
+    return snaphot.docs
+      .map((dataSet) => {
+        const data = dataSet.data();
+        return {
+          id: dataSet.id,
+          ...(data as MatchData),
+        };
+      })
+      .filter((match) => {
+        const matchTime = new Date(match.date);
+        return matchTime > now;
+      });
   } catch (error) {
     console.error(error);
     return [];

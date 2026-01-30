@@ -14,6 +14,7 @@ const Matches = () => {
   const [matchTitle, setMatchTitle] = useState("");
   const [venue, setVenue] = useState("");
   const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
 
@@ -55,12 +56,16 @@ const Matches = () => {
       Alert.alert("Error", "Cannot select same team twice!");
       return;
     }
-
+    const timeString = time.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
     try {
       await addMatch({
         title: matchTitle,
         venue,
         date: date.toISOString(),
+        time: timeString,
         teamA: teamA,
         teamB: teamB,
       });
@@ -146,11 +151,11 @@ const Matches = () => {
 
       {showTimePicker && (
         <DateTimePicker
-          value={date}
+          value={time}
           mode="time"
           onChange={(e, d) => {
             setShowTimePicker(false);
-            if (d) setDate(d);
+            if (d) setTime(d);
           }}
         />
       )}
