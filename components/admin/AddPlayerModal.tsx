@@ -24,7 +24,7 @@ export const AddPlayerModal = ({
 }: any) => (
   <Modal visible={visible} animationType="slide" transparent>
     <View className="flex-1 justify-end bg-black/80">
-      <View className="bg-slate-900 rounded-t-[40px] p-8 border-t border-slate-800">
+      <View className="bg-zinc-900 rounded-t-[40px] p-8 border-t border-slate-900">
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="flex-row justify-between items-center mb-8">
             <Text className="text-white text-2xl font-bold">
@@ -38,12 +38,12 @@ export const AddPlayerModal = ({
           <View className="items-center mb-8">
             <TouchableOpacity
               onPress={onPickImage}
-              className="w-28 h-28 bg-black/40 rounded-full border-2 border-dashed border-purple-500 items-center justify-center overflow-hidden"
+              className="w-28 h-28 bg-black/40 rounded-full border-2 border-dashed border-emerald-500 items-center justify-center overflow-hidden"
             >
               {image ? (
                 <Image source={{ uri: image }} className="w-full h-full" />
               ) : (
-                <MaterialIcons name="add-a-photo" size={32} color="#a855f7" />
+                <MaterialIcons name="add-a-photo" size={32} color="#10b981" />
               )}
             </TouchableOpacity>
           </View>
@@ -65,7 +65,7 @@ export const AddPlayerModal = ({
 
           <TouchableOpacity
             onPress={onSave}
-            className="bg-purple-600 py-5 rounded-2xl items-center"
+            className="bg-emerald-600 py-5 rounded-2xl items-center"
           >
             <Text className="text-white font-bold tracking-widest">
               {isEdit ? "EDIT PLAYER" : "ADD TO LIST"}

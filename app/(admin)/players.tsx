@@ -219,10 +219,10 @@ const AdminPlayersScreen = () => {
   return (
     <View className="flex-1 bg-black">
       <LinearGradient
-        colors={["#1d4ed8", "#9333ea"]}
+        colors={["#064e3b", "#059669"]}
         className="pt-16 pb-6 px-6"
       >
-        <Text className="text-blue-100 text-xs uppercase">
+        <Text className="text-emerald-100 text-xs uppercase">
           Players and Country Management
         </Text>
       </LinearGradient>
@@ -258,7 +258,7 @@ const AdminPlayersScreen = () => {
                   onPress={() => setSelectedCountry(item.name)}
                   className={`mr-3 px-6 py-2 rounded-full border ${
                     selectedCountry === item.name
-                      ? "bg-purple-600 border-purple-600"
+                      ? "bg-emerald-600 border-emerald-600"
                       : "bg-slate-900 border-slate-800"
                   }`}
                 >
@@ -281,7 +281,7 @@ const AdminPlayersScreen = () => {
               </Text>
               <TouchableOpacity
                 onPress={() => setPlayerModalVisible(true)}
-                className="bg-purple-600 p-3 rounded-2xl"
+                className="bg-emerald-500 p-3 rounded-2xl"
               >
                 <MaterialIcons name="person-add" size={24} color="white" />
               </TouchableOpacity>
@@ -296,7 +296,7 @@ const AdminPlayersScreen = () => {
           </View>
         ) : (
           <View className="flex-1 px-4">
-            <View className="bg-slate-900 p-5 rounded-3xl border border-slate-800 mb-6">
+            <View className="bg-zinc-900 p-5 rounded-3xl border border-slate-800 mb-6">
               <View className="flex-row items-center mb-4" style={{ gap: 12 }}>
                 <TouchableOpacity
                   onPress={() => pickImage("country")}
@@ -325,7 +325,7 @@ const AdminPlayersScreen = () => {
               </View>
               <TouchableOpacity
                 onPress={handleAddCountry}
-                className="bg-blue-600 py-4 rounded-2xl items-center"
+                className="bg-emerald-600 py-4 rounded-2xl items-center"
               >
                 <Text className="text-white font-bold">ADD COUNTRY</Text>
               </TouchableOpacity>
