@@ -8,7 +8,7 @@ import {
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "./firebase";
 
-interface IUserData {
+export interface IUserData {
   name: string;
   role: string;
   email: string;
