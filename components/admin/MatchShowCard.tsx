@@ -33,9 +33,7 @@ const MatchShowCard = ({ match }: MatchShowCardProps) => {
       </View>
 
       <View className="bg-slate-800/40 p-5 rounded-[30px]">
-        {/* Flag and VS Row - Everything aligned in one horizontal line */}
         <View className="flex-row justify-between items-center mb-4">
-          {/* Team A Flag */}
           <View className="flex-1 items-center">
             <Image
               source={{ uri: match.teamA.flag }}
@@ -44,12 +42,10 @@ const MatchShowCard = ({ match }: MatchShowCardProps) => {
             />
           </View>
 
-          {/* VS Badge in Middle */}
           <View className="bg-red-600 w-8 h-8 rounded-full justify-center items-center border-4 border-slate-900 shadow-sm mx-2">
             <Text className="text-white font-black text-[9px]">VS</Text>
           </View>
 
-          {/* Team B Flag */}
           <View className="flex-1 items-center">
             <Image
               source={{ uri: match.teamB.flag }}

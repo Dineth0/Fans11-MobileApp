@@ -208,9 +208,7 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
           <View className="bg-zinc-800 px-3 py-1 rounded-full">
             <Text className="text-zinc-400 text-[10px]">
               Captain:{" "}
-              <Text className="text-white font-bold">
-                {captain?.name || "N/A"}
-              </Text>
+              <Text className="text-white font-bold">{captain?.name}</Text>
             </Text>
           </View>
           <View className="bg-zinc-800 px-3 py-1 rounded-full">
@@ -278,6 +276,9 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
                   }
                 />
               </TouchableOpacity>
+              <Text className="text-zinc-300 text-[13px] font-bold mr-6">
+                {userReaction.likes?.length || 0}
+              </Text>
 
               <TouchableOpacity
                 className="flex-row items-center space-x-2 mr-4"
@@ -297,14 +298,23 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
                   }
                 />
               </TouchableOpacity>
+              <Text className="text-zinc-300 text-[13px] font-bold mr-6">
+                {userReaction.dislikes?.length || 0}
+              </Text>
             </View>
-            <TouchableOpacity onPress={() => setIsCommentModal(true)}>
+            <TouchableOpacity
+              onPress={() => setIsCommentModal(true)}
+              className="ml-40"
+            >
               <Ionicons
                 name="chatbubble-ellipses-outline"
                 size={24}
                 color="#fff"
               />
             </TouchableOpacity>
+            <Text className="text-zinc-300 text-[13px] font-bold">
+              {commentList?.length || 0}
+            </Text>
           </View>
         ) : (
           <View className="flex-row space-x-6">

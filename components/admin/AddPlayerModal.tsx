@@ -20,13 +20,16 @@ export const AddPlayerModal = ({
   role,
   setRole,
   onSave,
+  isEdit,
 }: any) => (
   <Modal visible={visible} animationType="slide" transparent>
     <View className="flex-1 justify-end bg-black/80">
       <View className="bg-slate-900 rounded-t-[40px] p-8 border-t border-slate-800">
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="flex-row justify-between items-center mb-8">
-            <Text className="text-white text-2xl font-bold">ADD PLAYER</Text>
+            <Text className="text-white text-2xl font-bold">
+              {isEdit ? "EDIT PLAYER" : "ADD PLAYER"}
+            </Text>
             <TouchableOpacity onPress={onClose}>
               <MaterialIcons name="close" size={28} color="white" />
             </TouchableOpacity>
@@ -65,7 +68,7 @@ export const AddPlayerModal = ({
             className="bg-purple-600 py-5 rounded-2xl items-center"
           >
             <Text className="text-white font-bold tracking-widest">
-              ADD TO LIST
+              {isEdit ? "EDIT PLAYER" : "ADD TO LIST"}
             </Text>
           </TouchableOpacity>
         </ScrollView>

@@ -45,7 +45,9 @@ const AdminPlayersScreen = () => {
   const [countryName, setCName] = useState("");
   const [countryFlag, setCFlag] = useState<string | null>(null);
 
-  const { showLoader, hideLoader, isLoading } = useLoader();
+  const { showLoader, hideLoader } = useLoader();
+
+  const [editPlayer, setEditPlayer] = useState<Player | null>(null);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -162,6 +164,22 @@ const AdminPlayersScreen = () => {
     }
   };
 
+  const handleEdit = (player: Player) => {
+    setEditPlayer(player);
+    setPName(player.name);
+    setPRole(player.role);
+    setPImage(player.image);
+    setPlayerModalVisible(true);
+  };
+
+  const onCloseModal = () => {
+    setPlayerModalVisible(false);
+    setEditPlayer(null);
+    setPName("");
+    setPRole("");
+    setPImage(null);
+  };
+
   return (
     <View className="flex-1 bg-black">
       <LinearGradient
@@ -235,7 +253,9 @@ const AdminPlayersScreen = () => {
             <FlatList
               data={players}
               keyExtractor={(item) => item.id}
-              renderItem={({ item }) => <PlayerCard player={item} />}
+              renderItem={({ item }) => (
+                <PlayerCard player={item} onEdit={() => handleEdit(item)} />
+              )}
             />
           </View>
         ) : (
@@ -285,7 +305,7 @@ const AdminPlayersScreen = () => {
 
       <AddPlayerModal
         visible={isPlayerModalVisible}
-        onClose={() => setPlayerModalVisible(false)}
+        onClose={onCloseModal}
         onPickImage={() => pickImage("player")}
         image={playerImage}
         name={playerName}
@@ -293,6 +313,7 @@ const AdminPlayersScreen = () => {
         role={playerRole}
         setRole={setPRole}
         onSave={handleAddPlayer}
+        isEdit={editPlayer}
       />
     </View>
   );
