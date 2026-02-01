@@ -1,11 +1,15 @@
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
+import { Player } from "../types/player";
 import { db } from "./firebase";
 
 const playerCollect = collection(db, "players");
@@ -54,5 +58,21 @@ export const getPlayersByCountry = async (countryName: string) => {
   } catch (error) {
     console.error("Error fetching players: ", error);
     return [];
+  }
+};
+
+export const updatePlayer = async (id: string, updateData: Partial<Player>) => {
+  try {
+    const ref = doc(db, "players", id);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) throw new Error("Player not found");
+
+    await updateDoc(ref, {
+      ...updateData,
+      updateAt: new Date(),
+    });
+  } catch (error) {
+    console.error(error);
   }
 };

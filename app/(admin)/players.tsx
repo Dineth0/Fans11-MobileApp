@@ -16,7 +16,11 @@ import { CountryCard, PlayerCard } from "@/components/admin/ListCards";
 import { TabButton } from "@/components/admin/TabButton";
 import { useLoader } from "@/hooks/useLoader";
 import { addCountry, getAllCountries } from "@/services/countryService";
-import { addPlayer, getPlayersByCountry } from "@/services/playerService";
+import {
+  addPlayer,
+  getPlayersByCountry,
+  updatePlayer,
+} from "@/services/playerService";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 interface Country {
@@ -122,45 +126,77 @@ const AdminPlayersScreen = () => {
     }
   };
 
-  const handleAddPlayer = async () => {
-    if (!playerName || !playerImage || !playerRole) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Warning",
-        textBody: "Please enter all fields",
-      });
-      return;
-    }
-    showLoader();
-    try {
-      const newId = await addPlayer(
-        playerName,
-        playerImage,
-        playerRole,
-        selectedCountry,
-      );
+  const handleSavePlayer = async () => {
+    if (editPlayer) {
+      showLoader();
+      try {
+        await updatePlayer(editPlayer.id, {
+          name: playerName,
+          image: playerImage as string,
+          role: playerRole,
+        });
 
-      const newPlayer: Player = {
-        id: newId,
-        name: playerName,
-        image: playerImage,
-        role: playerRole,
-        country: selectedCountry,
-      };
-      setPlayers((prev) => [newPlayer, ...prev]);
-      Toast.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: "Success",
-        textBody: "Player Added to " + selectedCountry,
-      });
-      setPlayerModalVisible(false);
-      setPName("");
-      setPRole("");
-      setPImage(null);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      hideLoader();
+        setPlayers((prev) =>
+          prev.map((p) =>
+            p.id === editPlayer.id
+              ? {
+                  ...p,
+                  name: playerName,
+                  role: playerRole,
+                  image: playerImage as string,
+                }
+              : p,
+          ),
+        );
+
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "Player Updated!",
+        });
+        onCloseModal();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        hideLoader();
+      }
+    } else {
+      if (!playerName || !playerImage || !playerRole) {
+        Toast.show({
+          type: ALERT_TYPE.WARNING,
+          title: "Warning",
+          textBody: "Please enter all fields",
+        });
+        return;
+      }
+      showLoader();
+      try {
+        const newId = await addPlayer(
+          playerName,
+          playerImage,
+          playerRole,
+          selectedCountry,
+        );
+
+        const newPlayer: Player = {
+          id: newId,
+          name: playerName,
+          image: playerImage,
+          role: playerRole,
+          country: selectedCountry,
+        };
+        setPlayers((prev) => [newPlayer, ...prev]);
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "Player Added to " + selectedCountry,
+        });
+        onCloseModal();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        hideLoader();
+      }
     }
   };
 
@@ -312,7 +348,7 @@ const AdminPlayersScreen = () => {
         setName={setPName}
         role={playerRole}
         setRole={setPRole}
-        onSave={handleAddPlayer}
+        onSave={handleSavePlayer}
         isEdit={editPlayer}
       />
     </View>
