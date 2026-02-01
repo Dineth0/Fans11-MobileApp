@@ -78,12 +78,13 @@ const Matches = () => {
 
       const updated = await getAllMatches();
       setMatches(updated);
-    } catch (e) {
+    } catch (error) {
+      console.error(error);
       Alert.alert("Error", "Failed to create match");
     }
   };
 
-  const Header = () => (
+  const Header = (
     <View>
       <Text className="text-white text-3xl font-black mb-8 mt-9">
         New Match

@@ -1,6 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -218,15 +217,6 @@ const AdminPlayersScreen = () => {
 
   return (
     <View className="flex-1 bg-black">
-      <LinearGradient
-        colors={["#064e3b", "#059669"]}
-        className="pt-16 pb-6 px-6"
-      >
-        <Text className="text-emerald-100 text-xs uppercase">
-          Players and Country Management
-        </Text>
-      </LinearGradient>
-
       <View className="flex-row bg-zinc-700 mx-4 mt-4 rounded-xl p-1">
         <TabButton
           title="SQUADS"
@@ -240,7 +230,7 @@ const AdminPlayersScreen = () => {
         />
       </View>
 
-      <View className="flex-1 mt-4">
+      <View className="flex-1 mt-4 mb-24">
         {activeTab === "players" ? (
           <View className="flex-1">
             <FlatList
