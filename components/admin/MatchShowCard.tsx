@@ -25,9 +25,9 @@ const MatchShowCard = ({ match }: MatchShowCardProps) => {
   });
 
   return (
-    <View className="bg-slate-900 mb-4 p-5 rounded-[30px] border border-slate-800 shadow-lg">
+    <View className="bg-zinc-800 mb-4 p-5 rounded-[30px] border border-slate-800 shadow-lg">
       <View className="mb-4 ml-1">
-        <Text className="text-purple-500 font-black text-[10px] uppercase tracking-[3px]">
+        <Text className="text-emerald-500 font-black text-[10px] uppercase tracking-[3px]">
           {match.title}
         </Text>
       </View>

@@ -227,7 +227,7 @@ const AdminPlayersScreen = () => {
         </Text>
       </LinearGradient>
 
-      <View className="flex-row bg-slate-900 mx-4 mt-4 rounded-xl p-1">
+      <View className="flex-row bg-zinc-700 mx-4 mt-4 rounded-xl p-1">
         <TabButton
           title="SQUADS"
           active={activeTab === "players"}
@@ -259,7 +259,7 @@ const AdminPlayersScreen = () => {
                   className={`mr-3 px-6 py-2 rounded-full border ${
                     selectedCountry === item.name
                       ? "bg-emerald-600 border-emerald-600"
-                      : "bg-slate-900 border-slate-800"
+                      : "bg-zinc-900 border-slate-800"
                   }`}
                 >
                   <Text

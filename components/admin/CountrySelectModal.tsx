@@ -1,11 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import {
-    FlatList,
-    Image,
-    Modal,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  Image,
+  Modal,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 interface Country {
@@ -31,7 +31,7 @@ const CountrySelectModal = ({
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <View className="flex-1 justify-end bg-black/70">
-        <View className="bg-slate-900 h-[60%] rounded-t-[40px] p-8 border-t border-slate-800">
+        <View className="bg-zinc-900 h-[60%] rounded-t-[40px] p-8 border-t border-slate-800">
           <Text className="text-white text-xl font-bold mb-6 text-center">
             Select {selectionType === "A" ? "Team A" : "Team B"}
           </Text>
@@ -42,7 +42,7 @@ const CountrySelectModal = ({
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => onSelect(item)}
-                className="bg-slate-800 p-5 mb-3 rounded-2xl flex-row items-center border border-slate-700"
+                className="bg-zinc-700 p-5 mb-3 rounded-2xl flex-row items-center border border-slate-700"
               >
                 <View className="w-10 h-10 bg-slate-700 rounded-full mr-4 justify-center items-center">
                   {item.flag ? (

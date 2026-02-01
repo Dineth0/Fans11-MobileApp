@@ -11,7 +11,7 @@ const TeamSelectCard = ({ label, selectedTeam, onPress }: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      className="w-[43%] bg-slate-900 h-32 rounded-[30px] justify-center items-center border border-slate-800 shadow-sm"
+      className="w-[43%] bg-zinc-800 h-32 rounded-[30px] justify-center items-center border border-slate-800 shadow-sm"
     >
       {selectedTeam ? (
         <View className="items-center">
@@ -21,7 +21,7 @@ const TeamSelectCard = ({ label, selectedTeam, onPress }: Props) => {
             resizeMode="cover"
           />
           <Text
-            className="text-white font-bold text-center px-2"
+            className="text-emerald-500 font-bold text-center px-2"
             numberOfLines={2}
           >
             {selectedTeam.name}
@@ -32,7 +32,7 @@ const TeamSelectCard = ({ label, selectedTeam, onPress }: Props) => {
           <View className="bg-slate-800 p-3 rounded-full mb-2">
             <Ionicons name="add" size={24} color="#9333ea" />
           </View>
-          <Text className="text-gray-500 font-bold text-xs uppercase tracking-tighter">
+          <Text className="text-emerald-500 font-bold text-xs uppercase tracking-tighter">
             {label}
           </Text>
         </View>

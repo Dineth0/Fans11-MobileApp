@@ -85,7 +85,7 @@ const Matches = () => {
 
   const Header = () => (
     <View>
-      <Text className="text-white text-3xl font-black mb-8 mt-6">
+      <Text className="text-white text-3xl font-black mb-8 mt-9">
         New Match
       </Text>
 
@@ -116,9 +116,9 @@ const Matches = () => {
       <View className="flex-row justify-between mb-5">
         <TouchableOpacity
           onPress={() => setShowDatePicker(true)}
-          className="bg-slate-800 p-4 rounded-2xl w-[48%]"
+          className="bg-zinc-800 p-4 rounded-2xl w-[48%]"
         >
-          <Text className="text-gray-400 text-xs">Date</Text>
+          <Text className="text-emerald-400 text-xs">Date</Text>
           <Text className="text-white font-bold">
             {date.toLocaleDateString()}
           </Text>
@@ -126,9 +126,9 @@ const Matches = () => {
 
         <TouchableOpacity
           onPress={() => setShowTimePicker(true)}
-          className="bg-slate-800 p-4 rounded-2xl w-[48%]"
+          className="bg-zinc-800 p-4 rounded-2xl w-[48%]"
         >
-          <Text className="text-gray-400 text-xs">Time</Text>
+          <Text className="text-emerald-400 text-xs">Time</Text>
           <Text className="text-white font-bold">
             {date.toLocaleTimeString([], {
               hour: "2-digit",
@@ -160,7 +160,7 @@ const Matches = () => {
         />
       )}
 
-      <View className="bg-slate-900/50 p-6 rounded-[35px] mb-10">
+      <View className="bg-zinc-900 p-6 rounded-[35px] mb-10">
         <AddMatchModal
           label="Match Title"
           value={matchTitle}
@@ -176,7 +176,7 @@ const Matches = () => {
 
         <TouchableOpacity
           onPress={handleCreateMatch}
-          className="bg-purple-600 h-16 rounded-2xl justify-center items-center"
+          className="bg-emerald-600 h-16 rounded-2xl justify-center items-center"
         >
           <Text className="text-white font-black text-lg">Create Match</Text>
         </TouchableOpacity>
