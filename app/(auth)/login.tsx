@@ -1,16 +1,18 @@
 import { useLoader } from "@/hooks/useLoader";
 import { getUserData, login } from "@/services/authService";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-    ImageBackground,
-    Keyboard,
-    Pressable,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
+  Image,
+  ImageBackground,
+  Keyboard,
+  Pressable,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
@@ -19,6 +21,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { showLoader, hideLoader, isLoading } = useLoader();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password || isLoading) {
@@ -73,33 +76,52 @@ const Login = () => {
         className="flex-1"
         resizeMode="cover"
       >
-        <View className="flex-1 justify-center items-center bg-black/40 p-6">
-          <View className="w-full bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20">
-            <Text className="text-4xl font-extrabold mb-2 text-center text-white italic">
-              FANS11
-            </Text>
-            <Text className="text-gray-200 text-center mb-8 font-medium">
-              Log in to your account
-            </Text>
+        <View className="flex-1 justify-center items-center bg-black/50 p-6">
+          <View className="w-full bg-black/40 backdrop-blur-3xl rounded-[40px] p-8 border border-white/20 shadow-2xl">
+            <View className="items-center mb-8">
+              <Image
+                source={require("../../assets/images/fans11.png")}
+                className="p-4 rounded-full mb-4 shadow-lg w-28 h-28"
+              />
+              <Text className="text-4xl font-black text-center text-white tracking-tight">
+                FANS11
+              </Text>
+              <Text className="text-gray-200 text-center mt-2 font-medium">
+                Login your account
+              </Text>
+            </View>
 
-            <TextInput
-              placeholder="Email Address"
-              placeholderTextColor="#D1D5DB"
-              className="bg-white/20 p-4 mb-4 rounded-2xl text-white border border-white/10"
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-              keyboardType="email-address"
-            />
+            <View className="flex-row items-center bg-white/10 rounded-2xl mb-4 px-4 border border-white/10">
+              <MaterialIcons name="mail-outline" size={20} color="#9CA3AF" />
+              <TextInput
+                placeholder="Email Address"
+                placeholderTextColor="#9CA3AF"
+                className="flex-1 p-4 text-white font-semibold"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
 
-            <TextInput
-              placeholder="Password"
-              placeholderTextColor="#D1D5DB"
-              className="bg-white/20 p-4 mb-8 rounded-2xl text-white border border-white/10"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
+            <View className="flex-row items-center bg-white/10 rounded-2xl mb-4 px-4 border border-white/10">
+              <MaterialIcons name="lock-outline" size={20} color="#9CA3AF" />
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor="#9CA3AF"
+                className="flex-1 p-4 text-white font-semibold"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Ionicons
+                  name={showPassword ? "eye-off-outline" : "eye-outline"}
+                  size={20}
+                  color="#9CA3AF"
+                />
+              </TouchableOpacity>
+            </View>
 
             <Pressable
               className="bg-blue-600 py-4 rounded-2xl active:bg-blue-700 shadow-lg"
