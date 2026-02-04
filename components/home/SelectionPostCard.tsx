@@ -9,6 +9,7 @@ import {
 import { addReaction, getReactions } from "@/services/postService";
 import { deleteMySelection11 } from "@/services/select11Service";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
@@ -49,7 +50,19 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
       return "";
     }
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-    return date.toLocaleDateString();
+
+    return formatDistanceToNowStrict(date)
+      .replace(" seconds", "s")
+
+      .replace(" minutes", "m")
+
+      .replace(" hours", "h")
+
+      .replace(" days", "d")
+      .replace(" weeks", "w")
+      .replace(" months", "mon")
+
+      .replace(" years", "y");
   };
 
   useEffect(() => {
@@ -170,7 +183,7 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
   };
 
   return (
-    <View className="bg-zinc-900 mb-6 rounded-3xl overflow-hidden border border-zinc-800 shadow-xl shadow-black/50 mx-4">
+    <View className="bg-zinc-700 mb-6 rounded-3xl overflow-hidden border border-zinc-800 shadow-xl shadow-black/50 mx-4">
       <View className="flex-row items-center justify-between p-4 bg-zinc-800/30">
         <View className="flex-row items-center space-x-3">
           <View className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500 items-center justify-center overflow-hidden">
