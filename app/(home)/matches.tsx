@@ -30,14 +30,17 @@ const Matches = () => {
     teamSide: "A" | "B",
     teamData: any,
     matchTitle: string,
+    tourName: string,
   ) => {
     console.log(teamData.name);
+    console.log("Navigating with:", { tourName, matchTitle });
     router.push({
       pathname: "/playerSelectScreen",
       params: {
         matchId: matchId,
         teamName: teamData.name,
         teamSide: teamSide,
+        tourName: tourName,
         matchTitle: matchTitle,
       },
     });

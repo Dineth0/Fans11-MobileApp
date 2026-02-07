@@ -15,6 +15,7 @@ interface Country {
   flag: string;
 }
 interface MatchData {
+  tourName: string;
   title: string;
   venue: string;
   date: string;

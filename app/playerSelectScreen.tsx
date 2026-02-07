@@ -26,7 +26,7 @@ const { width } = Dimensions.get("window");
 const COLUMN_WIDTH = width / 3;
 
 const PickSquadScreen = () => {
-  const { matchId, teamName, matchTitle, edit, postId } =
+  const { matchId, teamName, tourName, matchTitle, edit, postId } =
     useLocalSearchParams();
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
@@ -107,11 +107,17 @@ const PickSquadScreen = () => {
       const userData = await getUserData(user.uid);
       const userImage = userData.image;
       showLoader();
-      const selectedFullDetails = players.filter((p) =>
-        selectedPlayers.includes(p.id),
-      );
+      const selectedFullDetails = players
+        .filter((p) => selectedPlayers.includes(p.id))
+        .map((p) => ({
+          id: p.id,
+          name: p.name,
+          role: p.role,
+          image: p.image,
+        }));
       const squadData = {
         matchId: matchId as string,
+        tourName: tourName as string,
         matchTitle: matchTitle as string,
         select11: selectedFullDetails,
         countryName: teamName as string,
@@ -120,6 +126,7 @@ const PickSquadScreen = () => {
         userName: user.displayName || "",
         userImage: userImage,
       };
+      console.log("PARAMS =>", { matchId, teamName, tourName, matchTitle });
 
       if (isEdit && postId) {
         await updateMySelection11s(postId as string, squadData);

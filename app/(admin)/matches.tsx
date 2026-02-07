@@ -11,6 +11,7 @@ import { getAllCountries } from "@/services/countryService";
 import { addMatch, getAllMatches } from "@/services/matchService";
 
 const Matches = () => {
+  const [tourName, setTourName] = useState("");
   const [matchTitle, setMatchTitle] = useState("");
   const [venue, setVenue] = useState("");
   const [date, setDate] = useState(new Date());
@@ -56,15 +57,20 @@ const Matches = () => {
       Alert.alert("Error", "Cannot select same team twice!");
       return;
     }
+    const finalDate = new Date(date);
+    finalDate.setHours(time.getHours());
+    finalDate.setMinutes(time.getMinutes());
+    finalDate.setSeconds(0);
     const timeString = time.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     });
     try {
       await addMatch({
+        tourName: tourName,
         title: matchTitle,
         venue,
-        date: date.toISOString(),
+        date: finalDate.toISOString(),
         time: timeString,
         teamA: teamA,
         teamB: teamB,
@@ -85,7 +91,7 @@ const Matches = () => {
   };
 
   const Header = (
-    <View>
+    <View className="">
       <Text className="text-white text-3xl font-black mb-8 mt-9">
         New Match
       </Text>
@@ -131,7 +137,7 @@ const Matches = () => {
         >
           <Text className="text-emerald-400 text-xs">Time</Text>
           <Text className="text-white font-bold">
-            {date.toLocaleTimeString([], {
+            {time.toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
             })}
@@ -163,11 +169,18 @@ const Matches = () => {
 
       <View className="bg-zinc-900 p-6 rounded-[35px] mb-10">
         <AddMatchModal
+          label="Tour Name"
+          value={tourName}
+          onChangeText={setTourName}
+          placehplder="T20 World Cup 2026"
+        />
+        <AddMatchModal
           label="Match Title"
           value={matchTitle}
           onChangeText={setMatchTitle}
-          placehplder="Asia Cup 2026"
+          placehplder="1st T20 / Match 1"
         />
+
         <AddMatchModal
           label="Venue"
           value={venue}
@@ -197,6 +210,7 @@ const Matches = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <MatchShowCard match={item} />}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
         ListEmptyComponent={
           !isLoading ? (
             <Text className="text-gray-500 text-center mt-20">

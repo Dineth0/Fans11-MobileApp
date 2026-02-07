@@ -8,6 +8,7 @@ interface Country {
 
 interface MatchShowCardProps {
   match: {
+    tourName: string;
     title: string;
     venue: string;
     date: string;
@@ -26,6 +27,11 @@ const MatchShowCard = ({ match }: MatchShowCardProps) => {
 
   return (
     <View className="bg-zinc-800 mb-4 p-5 rounded-[30px] border border-slate-800 shadow-lg">
+      <View className="mb-4 ml-1 justify-between items-center">
+        <Text className="text-emerald-500 font-black text-[12px] uppercase tracking-[3px]">
+          {match.tourName}
+        </Text>
+      </View>
       <View className="mb-4 ml-1">
         <Text className="text-emerald-500 font-black text-[10px] uppercase tracking-[3px]">
           {match.title}

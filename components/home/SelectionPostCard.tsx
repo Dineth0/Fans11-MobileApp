@@ -211,9 +211,16 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
 
         <View className="items-end">
           <Text className="text-emerald-500 font-black text-[10px] uppercase tracking-widest">
+            {post.tourName}
+          </Text>
+          <Text className="text-emerald-500 font-black text-[10px] uppercase tracking-widest">
             {post.matchTitle}
           </Text>
-          <Text className="text-zinc-400 text-[9px] font-bold">{teamName}</Text>
+          <View className="items-center justify-center py-1">
+            <Text className="text-zinc-400 text-[11px] font-bold uppercase tracking-tighter">
+              {teamName}
+            </Text>
+          </View>
         </View>
       </View>
       <View className="p-4">

@@ -5,6 +5,7 @@ import { Country } from "../../types/country";
 interface Props {
   match: {
     id: string;
+    tourName: string;
     title: string;
     venue: string;
     date: string;
@@ -16,6 +17,7 @@ interface Props {
     team: "A" | "B",
     teamData: Country,
     matchTitle: string,
+    tourName: string,
   ) => void;
 }
 
@@ -38,6 +40,11 @@ const UserSideMatchShowCard = ({ match, onSelectTeam }: Props) => {
         <View className="flex-row justify-between items-center px-6 pt-6">
           <View className="bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
             <Text className="text-emerald-500 font-bold text-[9px] uppercase tracking-widest">
+              {match.tourName}
+            </Text>
+          </View>
+          <View className="bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+            <Text className="text-emerald-500 font-bold text-[9px] uppercase tracking-widest">
               {match.title}
             </Text>
           </View>
@@ -53,7 +60,14 @@ const UserSideMatchShowCard = ({ match, onSelectTeam }: Props) => {
         <View className="flex-row items-center justify-around py-8 px-2">
           <TouchableOpacity
             onPress={() =>
-              onSelectTeam(match.id, "A", match.teamA, match.title)
+              onSelectTeam(
+                match.id,
+                "A",
+                match.teamA,
+
+                match.title,
+                match.tourName,
+              )
             }
             className="items-center flex-1"
           >
@@ -86,7 +100,14 @@ const UserSideMatchShowCard = ({ match, onSelectTeam }: Props) => {
 
           <TouchableOpacity
             onPress={() =>
-              onSelectTeam(match.id, "B", match.teamB, match.title)
+              onSelectTeam(
+                match.id,
+                "B",
+                match.teamB,
+
+                match.title,
+                match.tourName,
+              )
             }
             className="items-center flex-1"
           >

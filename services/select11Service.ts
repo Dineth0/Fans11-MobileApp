@@ -17,6 +17,7 @@ const select11Collect = collection(db, "selected11s");
 
 interface Select11Data {
   matchId: string;
+  tourName: string;
   matchTitle: string;
   select11: Player[];
   countryName: string;
