@@ -179,11 +179,6 @@ const Register = () => {
                   </View>
                   <Pressable
                     onPress={handleRegister}
-                    style={({ pressed }) => [
-                      {
-                        transform: [{ scale: pressed ? 0.96 : 1 }], // ඔබන විට පොඩි Bounce එකක්
-                      },
-                    ]}
                     className="bg-emerald-500 py-4 rounded-2xl shadow-2xl shadow-emerald-500/60 flex-row items-center justify-center"
                   >
                     <Text className="text-zinc-950 text-xl font-black uppercase tracking-widest mr-2">
