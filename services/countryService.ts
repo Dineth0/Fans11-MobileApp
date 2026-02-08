@@ -1,22 +1,22 @@
 import { db } from "@/services/firebase";
 import {
-    addDoc,
-    collection,
-    getDocs,
-    orderBy,
-    query,
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query,
 } from "firebase/firestore";
 
 const countryCollect = collection(db, "countries");
 
 export const addCountry = async (
   name: string,
-  flagBase64: string,
+  flagUrl: string,
 ): Promise<string> => {
   try {
     const doc = await addDoc(countryCollect, {
       name: name,
-      flag: flagBase64,
+      flag: flagUrl,
       createdAt: new Date(),
     });
     return doc.id;

@@ -14,6 +14,7 @@ import { AddPlayerModal } from "@/components/admin/AddPlayerModal";
 import { CountryCard, PlayerCard } from "@/components/admin/ListCards";
 import { TabButton } from "@/components/admin/TabButton";
 import { useLoader } from "@/hooks/useLoader";
+import { uploadToCloudinary } from "@/services/cloud";
 import { addCountry, getAllCountries } from "@/services/countryService";
 import {
   addPlayer,
@@ -98,7 +99,12 @@ const AdminPlayersScreen = () => {
     }
     showLoader();
     try {
-      const newId = await addCountry(countryName, countryFlag);
+      const flagUrl = await uploadToCloudinary(countryFlag);
+
+      if (!flagUrl) {
+        throw new Error("Image upload failed");
+      }
+      const newId = await addCountry(countryName, flagUrl);
       const newCountry: Country = {
         id: newId,
         name: countryName,
@@ -127,12 +133,30 @@ const AdminPlayersScreen = () => {
   };
 
   const handleSavePlayer = async () => {
-    if (editPlayer) {
-      showLoader();
-      try {
+    if (!playerName || !playerImage || !playerRole) {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Warning",
+        textBody: "Please enter all fields",
+      });
+      return;
+    }
+
+    showLoader();
+    try {
+      let finalImageUrl: string = playerImage;
+
+      if (playerImage!.startsWith("data:image")) {
+        const uploadedUrl = await uploadToCloudinary(playerImage!);
+        console.log("Cloudinary response:", uploadedUrl);
+        if (!uploadedUrl) throw new Error("Image upload failed");
+        finalImageUrl = uploadedUrl;
+      }
+
+      if (editPlayer) {
         await updatePlayer(editPlayer.id, {
           name: playerName,
-          image: playerImage as string,
+          image: finalImageUrl,
           role: playerRole,
         });
 
@@ -143,7 +167,7 @@ const AdminPlayersScreen = () => {
                   ...p,
                   name: playerName,
                   role: playerRole,
-                  image: playerImage as string,
+                  image: finalImageUrl,
                 }
               : p,
           ),
@@ -155,25 +179,10 @@ const AdminPlayersScreen = () => {
           textBody: "Player Updated!",
         });
         onCloseModal();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        hideLoader();
-      }
-    } else {
-      if (!playerName || !playerImage || !playerRole) {
-        Toast.show({
-          type: ALERT_TYPE.WARNING,
-          title: "Warning",
-          textBody: "Please enter all fields",
-        });
-        return;
-      }
-      showLoader();
-      try {
+      } else {
         const newId = await addPlayer(
           playerName,
-          playerImage,
+          finalImageUrl,
           playerRole,
           selectedCountry,
         );
@@ -181,10 +190,11 @@ const AdminPlayersScreen = () => {
         const newPlayer: Player = {
           id: newId,
           name: playerName,
-          image: playerImage,
+          image: finalImageUrl,
           role: playerRole,
           country: selectedCountry,
         };
+
         setPlayers((prev) => [newPlayer, ...prev]);
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
@@ -192,11 +202,16 @@ const AdminPlayersScreen = () => {
           textBody: "Player Added to " + selectedCountry,
         });
         onCloseModal();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        hideLoader();
       }
+    } catch (error) {
+      console.error(error);
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Error",
+        textBody: "Action Failed!",
+      });
+    } finally {
+      hideLoader();
     }
   };
 
