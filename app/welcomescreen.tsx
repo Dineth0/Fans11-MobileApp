@@ -3,13 +3,10 @@ import { getUserData } from "@/services/authService";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
-import {
-  Dimensions,
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import SwipeButton from "rn-swipe-button";
+
+import { Ionicons } from "@expo/vector-icons";
+import { Dimensions, ImageBackground, Text, View } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
@@ -28,7 +25,7 @@ export default function WelcomeScreen() {
       const userData = await getUserData(user.uid);
 
       if (userData.role === "Admin") {
-        router.replace("/dashboard");
+        router.replace("/(admin)/players");
       } else {
         router.replace("/home");
       }
@@ -66,30 +63,38 @@ export default function WelcomeScreen() {
             </Text>
           </View>
 
-          <View className="items-center w-full">
-            <TouchableOpacity
-              className="w-full h-16 rounded-full p-[1.5px] overflow-hidden"
-              activeOpacity={0.8}
-              onPress={handleStarted}
-            >
-              <LinearGradient
-                colors={["#1d4ed8", "#9333ea"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                className="flex-1 rounded-full justify-center items-center"
-              >
-                <View className="bg-black/40 w-full h-full rounded-full justify-center items-center">
-                  <Text className="text-white text-xl font-black tracking-widest uppercase">
-                    GET STARTED
-                  </Text>
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
-
-            <Text className="text-gray-500 mt-4 text-xs uppercase tracking-[3px] font-bold">
-              Predict • Compete • Win
-            </Text>
-          </View>
+          <SwipeButton
+            onSwipeSuccess={handleStarted}
+            // Rail එක (පසුබිම) ලා කහ පාට කරන්න
+            railBackgroundColor="#EFFF61"
+            railBorderColor="transparent"
+            railFillBackgroundColor="rgba(0,0,0,0.1)"
+            railFillBorderColor="transparent"
+            // Thumb එක (කළු රවුම)
+            thumbIconBackgroundColor="#000000"
+            thumbIconBorderColor="#000000"
+            thumbIconStyles={{ borderRadius: 50, borderWidth: 0 }}
+            thumbIconComponent={() => (
+              <Ionicons name="arrow-forward" size={28} color="#EFFF61" />
+            )}
+            // Text එක
+            title="GET STARTED"
+            titleColor="#000000"
+            titleFontSize={16}
+            titleStyles={{ fontWeight: "900", letterSpacing: 2 }} // තද අකුරු සහ ඉඩ තැබීම
+            // පෙනුම තවත් ලස්සන කරන්න
+            containerStyles={{
+              borderRadius: 50,
+              marginHorizontal: 10,
+              borderWidth: 0,
+              elevation: 10, // Android shadow
+              shadowColor: "#EFFF61", // iOS shadow
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.3,
+              shadowRadius: 10,
+            }}
+            height={60}
+          />
         </LinearGradient>
       </ImageBackground>
     </View>

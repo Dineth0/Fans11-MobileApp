@@ -51,7 +51,7 @@ const Login = () => {
         });
 
         if (userData.role === "Admin") {
-          router.replace("/(admin)/dashboard");
+          router.replace("/(admin)/players");
         } else {
           router.replace("/(home)/home");
         }
