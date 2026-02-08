@@ -143,12 +143,13 @@ const Login = () => {
                   </View>
 
                   <Pressable
-                    className="bg-blue-600 py-4 rounded-2xl active:bg-blue-700 shadow-lg"
                     onPress={handleLogin}
+                    className="bg-emerald-500 py-4 rounded-2xl shadow-2xl shadow-emerald-500/60 flex-row items-center justify-center"
                   >
-                    <Text className="text-white text-xl font-bold text-center">
-                      LOGIN
+                    <Text className="text-zinc-950 text-xl font-black uppercase tracking-widest mr-2">
+                      Login
                     </Text>
+                    <Ionicons name="log-in" size={22} color="white" />
                   </Pressable>
 
                   <View className="flex-row justify-center mt-6">
