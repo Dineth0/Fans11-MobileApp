@@ -57,6 +57,7 @@ const AdminPlayersScreen = () => {
       showLoader();
       const data = await getAllCountries();
       setCountries(data);
+      setSelectedCountry(data[0].name);
       hideLoader();
     };
     fetchCountries();
@@ -229,7 +230,9 @@ const AdminPlayersScreen = () => {
           onPress={() => setActiveTab("countries")}
         />
       </View>
-
+      <Text className="text-white text-[15px] font-bold mt-4 ml-8">
+        Countries
+      </Text>
       <View className="flex-1 mt-4 mb-24">
         {activeTab === "players" ? (
           <View className="flex-1">
