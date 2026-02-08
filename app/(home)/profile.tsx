@@ -5,6 +5,7 @@ import {
   logOutUser,
   updateUserProfile,
 } from "@/services/authService";
+import { uploadToCloudinary } from "@/services/cloud";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
@@ -62,7 +63,12 @@ const Profile = () => {
 
       if (user?.uid) {
         try {
-          await updateUserProfile(user.uid, base64Image);
+          const uploadedUrl = await uploadToCloudinary(base64Image);
+
+          if (!uploadedUrl) {
+            throw new Error("Cloudinary upload failed");
+          }
+          await updateUserProfile(user.uid, uploadedUrl);
           Toast.show({
             type: ALERT_TYPE.SUCCESS,
             title: "Success",

@@ -104,9 +104,9 @@ const PickSquadScreen = () => {
       return;
     }
     try {
+      showLoader();
       const userData = await getUserData(user.uid);
       const userImage = userData.image;
-      showLoader();
       const selectedFullDetails = players
         .filter((p) => selectedPlayers.includes(p.id))
         .map((p) => ({
@@ -126,10 +126,10 @@ const PickSquadScreen = () => {
         userName: user.displayName || "",
         userImage: userImage,
       };
-      console.log("PARAMS =>", { matchId, teamName, tourName, matchTitle });
 
       if (isEdit && postId) {
         await updateMySelection11s(postId as string, squadData);
+
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
           title: "Success",
@@ -138,6 +138,7 @@ const PickSquadScreen = () => {
         });
       } else {
         await addSelect11(squadData);
+        hideLoader();
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
           title: "Success",
@@ -147,7 +148,7 @@ const PickSquadScreen = () => {
       }
 
       setTimeout(() => {
-        router.replace("/(home)/matches");
+        router.replace("/(home)/home");
       }, 1500);
     } catch (error) {
       console.error(error);

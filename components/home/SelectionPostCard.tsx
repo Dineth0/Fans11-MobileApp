@@ -201,7 +201,7 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
           </View>
           <View className="">
             <Text className="text-white font-bold text-sm ml-2">
-              {post.userName || "Anonymous"}
+              {isHome ? post.userName || "Anonymous" : "Me"}
             </Text>
             <Text className="text-zinc-500 text-[10px] ml-2">
               {formatedDate(post.createdAt)}
@@ -349,6 +349,7 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
                     teamName: post.countryName,
                     matchTitle: post.matchTitle,
                     matchId: post.matchId,
+                    tourName: post.tourName,
                   },
                 })
               }
