@@ -4,17 +4,17 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-    Image,
-    ImageBackground,
-    Keyboard,
-    KeyboardAvoidingView,
-    Pressable,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
+  Image,
+  ImageBackground,
+  Keyboard,
+  KeyboardAvoidingView,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
@@ -178,12 +178,18 @@ const Register = () => {
                     </TouchableOpacity>
                   </View>
                   <Pressable
-                    className="bg-blue-600 py-4 rounded-2xl active:bg-blue-700 shadow-lg"
                     onPress={handleRegister}
+                    style={({ pressed }) => [
+                      {
+                        transform: [{ scale: pressed ? 0.96 : 1 }], // ඔබන විට පොඩි Bounce එකක්
+                      },
+                    ]}
+                    className="bg-emerald-500 py-4 rounded-2xl shadow-2xl shadow-emerald-500/60 flex-row items-center justify-center"
                   >
-                    <Text className="text-white text-xl font-bold text-center">
-                      Register
+                    <Text className="text-zinc-950 text-xl font-black uppercase tracking-widest mr-2">
+                      Create Account
                     </Text>
+                    <Ionicons name="flash" size={20} color="#09090b" />
                   </Pressable>
                   <View className="flex-row justify-center mt-6">
                     <Text className="text-gray-300">

@@ -65,30 +65,26 @@ export default function WelcomeScreen() {
 
           <SwipeButton
             onSwipeSuccess={handleStarted}
-            // Rail එක (පසුබිම) ලා කහ පාට කරන්න
             railBackgroundColor="#EFFF61"
             railBorderColor="transparent"
             railFillBackgroundColor="rgba(0,0,0,0.1)"
             railFillBorderColor="transparent"
-            // Thumb එක (කළු රවුම)
             thumbIconBackgroundColor="#000000"
             thumbIconBorderColor="#000000"
             thumbIconStyles={{ borderRadius: 50, borderWidth: 0 }}
             thumbIconComponent={() => (
               <Ionicons name="arrow-forward" size={28} color="#EFFF61" />
             )}
-            // Text එක
             title="GET STARTED"
             titleColor="#000000"
             titleFontSize={16}
-            titleStyles={{ fontWeight: "900", letterSpacing: 2 }} // තද අකුරු සහ ඉඩ තැබීම
-            // පෙනුම තවත් ලස්සන කරන්න
+            titleStyles={{ fontWeight: "900", letterSpacing: 2 }}
             containerStyles={{
               borderRadius: 50,
               marginHorizontal: 10,
               borderWidth: 0,
-              elevation: 10, // Android shadow
-              shadowColor: "#EFFF61", // iOS shadow
+              elevation: 10,
+              shadowColor: "#EFFF61",
               shadowOffset: { width: 0, height: 4 },
               shadowOpacity: 0.3,
               shadowRadius: 10,
