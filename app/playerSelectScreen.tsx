@@ -124,7 +124,7 @@ const PickSquadScreen = () => {
         captainId: captainId || "",
         userId: user.uid,
         userName: user.displayName || "",
-        userImage: userImage,
+        userImage: userImage || "",
       };
 
       if (isEdit && postId) {
@@ -160,7 +160,7 @@ const PickSquadScreen = () => {
   return (
     <View className="flex-1 bg-black">
       <ImageBackground
-        source={require("../assets/images/ground4.png")}
+        source={require("../assets/images/ground2.png")}
         className="flex-1"
         style={{ width }}
       >
