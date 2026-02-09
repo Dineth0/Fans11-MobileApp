@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
@@ -61,4 +62,13 @@ export const updateUserProfile = async (id: string, image: string) => {
   const userDoc = doc(db, "users", id);
 
   await setDoc(userDoc, { image: image }, { merge: true });
+};
+
+export const resetPassword = async (email: string) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return "Success";
+  } catch (error: any) {
+    throw error;
+  }
 };
