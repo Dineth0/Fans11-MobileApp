@@ -1,6 +1,6 @@
 import LottieView from "lottie-react-native";
 import { createContext, ReactNode, useState } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 interface LoderContextProps {
   showLoader: () => void;
@@ -39,11 +39,12 @@ export const LoadProvider = ({ children }: { children: ReactNode }) => {
         >
           <View className="bg-white p-4 rounded-3xl items-center justify-center w-40 h-40">
             <LottieView
-              source={require("@/assets/animations/loading.json")}
+              source={require("@/assets/animations/Sandy Loading.json")}
               autoPlay
               loop
               style={{ width: 150, height: 150 }}
             />
+            <Text className="text-white font-bold">Please Wait</Text>
           </View>
         </View>
       )}

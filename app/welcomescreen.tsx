@@ -65,7 +65,7 @@ export default function WelcomeScreen() {
 
           <SwipeButton
             onSwipeSuccess={handleStarted}
-            railBackgroundColor="#EFFF61"
+            railBackgroundColor="#30a818ff"
             railBorderColor="transparent"
             railFillBackgroundColor="rgba(0,0,0,0.1)"
             railFillBorderColor="transparent"
