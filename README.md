@@ -20,7 +20,7 @@ Team & Player Database: Manage country data, flags, and player rosters.
 
 Real-time Scheduling: Precise date and time pickers to keep the schedule accurate.
 
-#Tech Stack:-
+# Tech Stack:-
 
 Frontend: React Native (Expo)
 
