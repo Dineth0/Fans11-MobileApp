@@ -183,10 +183,10 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
   };
 
   return (
-    <View className="bg-zinc-700 mb-6 rounded-3xl overflow-hidden border border-zinc-800 shadow-xl shadow-black/50 mx-4">
+    <View className="bg-zinc-900 mb-6 rounded-3xl overflow-hidden border border-zinc-800 shadow-xl shadow-black/50 mx-4">
       <View className="flex-row items-center justify-between p-4 bg-zinc-800/30">
         <View className="flex-row items-center space-x-3">
-          <View className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500 items-center justify-center overflow-hidden">
+          <View className="w-12 h-12 rounded-full bg-emerald-500/20 border  items-center justify-center overflow-hidden">
             {post.userImage ? (
               <Image
                 source={{ uri: post.userImage }}
@@ -200,7 +200,7 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
             )}
           </View>
           <View className="">
-            <Text className="text-white font-bold text-sm ml-2">
+            <Text className="text-white font-bold text-[12px] ml-2">
               {isHome ? post.userName || "Anonymous" : "Me"}
             </Text>
             <Text className="text-zinc-500 text-[10px] ml-2">
@@ -217,7 +217,7 @@ const SelectionPostCard = ({ post, isHome = true, onDeleteSuccess }: Props) => {
             {post.matchTitle}
           </Text>
           <View className="items-center justify-center py-1">
-            <Text className="text-zinc-400 text-[11px] font-bold uppercase tracking-tighter">
+            <Text className="text-zinc-400 text-[12px] font-bold uppercase tracking-tighter">
               {teamName}
             </Text>
           </View>

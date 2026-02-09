@@ -47,7 +47,7 @@ const Matches = () => {
   };
 
   const header = () => (
-    <View className="px-6 py-4 border-b border-zinc-800">
+    <View className="px-6 py-4 border-b border-zinc-800 mb-4">
       <Text className="text-white text-2xl font-black italic">Matches</Text>
     </View>
   );

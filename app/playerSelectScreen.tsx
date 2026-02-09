@@ -160,7 +160,7 @@ const PickSquadScreen = () => {
   return (
     <View className="flex-1 bg-black">
       <ImageBackground
-        source={require("../assets/images/parth.png")}
+        source={require("../assets/images/ground4.png")}
         className="flex-1"
         style={{ width }}
       >
