@@ -1,50 +1,33 @@
-# Welcome to your Expo app 👋
+# Fans11 - Fantasy Cricket Squad Builder & Social Platform
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Fans11 is a dynamic mobile application designed for cricket fans to create, share, and discuss their dream playing XIs for upcoming matches. Built with React Native (Expo) and Firebase, it bridges the gap between match anticipation and community interaction.
 
-## Get started
+## For Users:-
 
-1. Install dependencies
+Dream XI Builder: Select 11 players for specific matches, assigning roles like Captain (C) and Wicket-keeper (WK).
 
-   ```bash
-   npm install
-   ```
+Public Social Feed: Share your squads with the global community and view others' picks.
 
-2. Start the app
+Engagement Tools: React to posts with Likes/Dislikes and engage in real-time discussions via comments.
 
-   ```bash
-   npx expo start
-   ```
+User Profiles: personalized experience with user-specific post tracking and profile management.
 
-In the output, you'll find options to open the app in a
+# For Admins:-
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Match Management Dashboard: Create and schedule new matches with details like Tour Name, Match Title, and Venue.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Team & Player Database: Manage country data, flags, and player rosters.
 
-## Get a fresh project
+Real-time Scheduling: Precise date and time pickers to keep the schedule accurate.
 
-When you're ready, run:
+#Tech Stack:-
 
-```bash
-npm run reset-project
-```
+Frontend: React Native (Expo)
+Styling: NativeWind (Tailwind CSS for React Native)
+Backend: Firebase Firestore (NoSQL Database)
+Authentication: Firebase Auth
+Date Management: date-fns for human-readable timestamps (e.g., "2h ago", "1d ago").
+Icons: Expo Vector Icons (Ionicons, MaterialIcons).
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# APK 
+https://expo.dev/accounts/dineth29/projects/Fans11/builds/8d6f9c39-4d12-45c2-9c89-dc6ae2ef848c
