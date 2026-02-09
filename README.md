@@ -23,10 +23,15 @@ Real-time Scheduling: Precise date and time pickers to keep the schedule accurat
 #Tech Stack:-
 
 Frontend: React Native (Expo)
+
 Styling: NativeWind (Tailwind CSS for React Native)
+
 Backend: Firebase Firestore (NoSQL Database)
+
 Authentication: Firebase Auth
+
 Date Management: date-fns for human-readable timestamps (e.g., "2h ago", "1d ago").
+
 Icons: Expo Vector Icons (Ionicons, MaterialIcons).
 
 # APK 
