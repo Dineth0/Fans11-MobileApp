@@ -18,7 +18,7 @@ Match Management Dashboard: Create and schedule new matches with details like To
 
 Team & Player Database: Manage country data, flags, and player rosters.
 
-Real-time Scheduling: Precise date and time pickers to keep the schedule accurate.
+Match Scheduling: Precise date and time pickers to keep the schedule accurate.
 
 # Tech Stack:-
 
