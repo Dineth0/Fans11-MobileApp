@@ -35,4 +35,4 @@ Date Management: date-fns for human-readable timestamps (e.g., "2h ago", "1d ago
 Icons: Expo Vector Icons (Ionicons, MaterialIcons).
 
 # APK 
-https://expo.dev/accounts/dineth29/projects/Fans11/builds/8d6f9c39-4d12-45c2-9c89-dc6ae2ef848c
+https://expo.dev/accounts/dineth29/projects/Fans11/builds/72bd429f-3c9e-4fbb-9522-5241ab07e716
